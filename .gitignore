@@ -1,0 +1,14 @@
+# Directory-based project format
+*.sublime*
+
+# OSX
+*.DS_Store
+
+# Dependencies
+node_modules
+
+# Tests
+test
+
+# Build
+gulpfile.js
