@@ -40,12 +40,14 @@ const homePage = hbs.compile(`
             <meta name="description" content="Rill Application">
         </head>
         <body>
-            {{title}}
-            {{#each frameworks}}
-                <div data-key={{name}}>
-                    {{name}} is pretty cool.
-                </div>
-            {{/each}}
+            <div class="app" data-key="home-page">
+                {{title}}
+                {{#each frameworks}}
+                    <div data-key={{name}}>
+                        {{name}} is pretty cool.
+                    </div>
+                {{/each}}
+            </div>
             <script src="/app.js"/>
         </body>
     </html>
@@ -77,6 +79,8 @@ setDOM(myElement, myHTML);
 ## Keyed Elements
 Just like React (although slightly different) `set-dom` supports keyed nodes.
 To help the diffing algorithm reposition your elements be sure to provide a `data-key` or `id` attribute on nodes inside a map. This is optional but key for performance when re-ordering/modifying lists.
+
+Another key difference from React is that `set-dom` simply can't tell when you are rendering an entirely different component. As such it is good practice to use `data-key` when you know that most of the html will be discarded (like when rendering an entirely different page) to skip the diffing process entirely.
 
 ### Contributions
 
