@@ -15,7 +15,7 @@ This is inspired by [diffhtml](https://github.com/tbranyen/diffhtml), [morphdom]
 ### Features
 * ~800 bytes min/gzip.
 * Minimal API.
-* Keyed html elements (`id` or `data-key` to shuffle around nodes).
+* Keyed html elements (`data-key` or `id` to shuffle around nodes).
 * Use whatever you want to generate html.
 
 # Installation
