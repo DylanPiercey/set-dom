@@ -1,4 +1,8 @@
-# Source coffescript
-src
+# Sublime
+*.sublime*
+
 # Tests
 test
+
+# Build
+gulpfile.js

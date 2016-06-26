@@ -25,6 +25,15 @@ This is inspired by [diffhtml](https://github.com/tbranyen/diffhtml), [morphdom]
 npm install set-dom
 ```
 
+#### [Download](https://raw.githubusercontent.com/DylanPiercey/set-dom/master/dist/set-dom.js)
+```html
+<script type="text/javascript" src="set-dom.js"></script>
+<script>
+    define(['set-dom'], function (setDOM) {...}); // AMD
+    window.setDOM; // Global set-dom if no module system in place.
+</script>
+```
+
 # Example
 
 

@@ -1,36 +1,44 @@
 {
   "name": "set-dom",
-  "version": "0.5.0",
   "description": "Lightweight dom diffing library with plain old html.",
+  "version": "0.6.0",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
-  "main": "lib/index.js",
-  "license": "MIT",
-  "scripts": {
-    "lint": "standard --verbose | snazzy",
-    "test": "npm run lint && tape ./**/*.test.js | tap-spec"
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "jsdom": "^9.2.1",
+    "jsdom-global": "^2.0.0",
+    "snazzy": "^4.0.0",
+    "standard": "^7.1.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0",
+    "uglify-js": "^2.6.4"
   },
   "keywords": [
-    "dom",
-    "virtual",
-    "react",
-    "tusk",
-    "render",
-    "hyperx",
     "diff",
-    "update",
+    "dom",
+    "hyperx",
+    "jsx",
+    "react",
+    "render",
     "set-dom",
-    "jsx"
+    "tusk",
+    "update",
+    "virtual"
   ],
+  "license": "MIT",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/DylanPiercey/set-dom"
   },
-  "devDependencies": {
-    "jsdom-global": "^2.0.0",
-    "snazzy": "^4.0.0",
-    "standard": "^7.1.1",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.5.1"
+  "scripts": {
+    "build": "browserify -s setDOM ./lib/index.js | uglifyjs -c -m > ./dist/set-dom.js",
+    "lint": "standard --verbose | snazzy",
+    "test": "npm run lint && tape ./**/*.test.js | tap-spec"
   },
-  "dependencies": {}
+  "standard": {
+    "ignore": [
+      "dist"
+    ]
+  }
 }

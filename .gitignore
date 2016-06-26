@@ -1,8 +1,8 @@
-# Directory-based project format
-*.sublime*
-
 # OSX
 *.DS_Store
+
+# Sublime
+*.sublime*
 
 # Dependencies
 node_modules
