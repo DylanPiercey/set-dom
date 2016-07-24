@@ -1,11 +1,9 @@
 # Set-DOM
 
-[![Join the chat at https://gitter.im/DylanPiercey/set-dom](https://badges.gitter.im/DylanPiercey/set-dom.svg)](https://gitter.im/DylanPiercey/set-dom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 A lightweight (~800 bytes) library to update DOM and persist state.
 IE: React diffing with html instead of JSX (bring your own templating language).
 
-[![Join the chat at https://gitter.im/DylanPiercey/set-dom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DylanPiercey/set-dom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/DylanPiercey/set-dom](https://badges.gitter.im/DylanPiercey/set-dom.svg)](https://gitter.im/DylanPiercey/set-dom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![npm](https://img.shields.io/npm/dm/set-dom.svg)](https://www.npmjs.com/package/set-dom)
 
 # Why

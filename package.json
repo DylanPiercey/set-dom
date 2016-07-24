@@ -1,17 +1,17 @@
 {
   "name": "set-dom",
   "description": "Lightweight dom diffing library with plain old html.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "devDependencies": {
     "browserify": "^13.0.1",
-    "jsdom": "^9.2.1",
+    "jsdom": "^9.4.1",
     "jsdom-global": "^2.0.0",
     "snazzy": "^4.0.0",
     "standard": "^7.1.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0",
-    "uglify-js": "^2.6.4"
+    "uglify-js": "^2.7.0"
   },
   "keywords": [
     "diff",
