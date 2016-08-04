@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>set-dom</title>
+</head>
+<body>
+    <p>setDOM(old, newhtml);</p>
+    <p>其中old是dom元素，newhtml是html字符串或dom元素。</p>
+    <p>即使有一丁点不匹配，都会导致更新。如newhtml开头有空白字符串；或中间多了(或少了)一个空格。</p>
+    <p>现存DOM: 
+        <pre>
+            &lt;a href="#" id="a"&gt;去&lt;b&gt;百度&lt;/b&gt; &lt;em&gt;123&lt;/em&gt;&lt;em&gt;456&lt;/em&gt;&lt;/a&gt;
+        </pre>
+        新html:
+        <pre>
+            &lt;a href="#" id="a"&gt;去&lt;b&gt;百度&lt;/b&gt; &lt;em&gt;123&lt;/em&gt;&lt; em&gt;456&lt;/em&gt;&lt;/a&gt;
+        </pre>
+        注意空格。a标签，里面的b，456所在的em，会更新。因为新html的456的em前有空格。(当然，两上空格=一个空格)
+    </p>
+
+    <br />
+    <a href="#" id="a">去<b>百度</b> <em>123</em> <em>456</em></a>
+        
+    <textarea name="" id="txt" cols="30" rows="10"><a href="http://g.cn">去 <em>百度</em> <em>123</em>  <em>456</em></a></textarea>
+    <button onclick="refresh()">更新</button>
+    <script src="../dist/set-dom.js"></script>
+    <script>
+        function refresh() {
+            var div = document.getElementById('a');
+            var value = document.getElementById('txt').value;
+            var t = Date.now();
+            // console.log(value)
+            setDOM(div, value);
+            console.log(Date.now() - t);
+        }
+    </script>
+
+</body>
+</html>
