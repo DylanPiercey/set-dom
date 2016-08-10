@@ -7,8 +7,5 @@
 # Dependencies
 node_modules
 
-# Tests
-test
-
 # Build
 gulpfile.js
