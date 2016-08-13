@@ -10,7 +10,7 @@ IE: React diffing with html instead of JSX (bring your own templating language).
 JSX is great but there are so many other nice alternatives.
 React is great but it's clunky and opinionated.
 
-This is inspired by [diffhtml](https://github.com/tbranyen/diffhtml), [morphdom](https://github.com/patrick-steele-idem/morphdom) and my knowlegde from [tusk](https://github.com/DylanPiercey/tusk). I set out to create a no nonsense "dom to dom" diffing algorithm that was fast and compact.
+This is inspired by [diffhtml](https://github.com/tbranyen/diffhtml), [morphdom](https://github.com/patrick-steele-idem/morphdom) and my knowledge from [tusk](https://github.com/DylanPiercey/tusk). I set out to create a no nonsense "dom to dom" diffing algorithm that was fast and compact.
 
 ### Features
 * ~800 bytes min/gzip.

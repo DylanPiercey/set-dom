@@ -3,7 +3,6 @@
 require('jsdom-global')()
 var test = require('tape')
 var diff = require('../')
-test.onFinish(process.exit)
 
 test('Attributes', function (t) {
   t.plan(3)
@@ -85,7 +84,6 @@ test('Children (data-key) remove', function (t) {
   // Ensure that other was not discarded.
   t.equal(el1.firstChild, originalFirstChild, 'preserved children')
   t.equal(el1.lastChild, originalLastChild, 'preserved children')
-
 })
 
 test('Children (data-key) move', function (t) {
@@ -104,7 +102,6 @@ test('Children (data-key) move', function (t) {
   // Ensure that other was not discarded.
   t.equal(el1.childNodes[1], originalThirdChild, 'preserved children')
   t.equal(el1.childNodes[2], originalSecondChild, 'preserved children')
-
 })
 
 test('Children (data-key) with xhtml namespaceURI', function (t) {
@@ -123,5 +120,4 @@ test('Children (data-key) with xhtml namespaceURI', function (t) {
   // Ensure that other was not discarded.
   t.equal(el1.firstChild, originalFirstChild, 'preserved children')
   t.equal(el1.lastChild, originalLastChild, 'preserved children')
-
 })

@@ -1,11 +1,11 @@
 {
   "name": "set-dom",
   "description": "Lightweight dom diffing library with plain old html.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "devDependencies": {
     "browserify": "^13.1.0",
-    "jsdom": "^9.4.1",
+    "jsdom": "^9.4.2",
     "jsdom-global": "^2.0.0",
     "snazzy": "^4.0.1",
     "standard": "^7.1.2",
