@@ -31,7 +31,7 @@
   </a>
 </h1>
 
-A lightweight (~800 bytes) library to update DOM and persist state.
+A lightweight library to update DOM and persist state.
 IE: React diffing with html instead of JSX (bring your own templating language).
 
 # Why
@@ -122,7 +122,7 @@ Another key difference from React is that `set-dom` simply can't tell when you a
 ## Ignored Elements
 Sometimes it is required to simply escape the whole diffing paradigm and do all of the manual dom work yourself. With `set-dom` it is easy to include these types of elements in the page using a special `data-ignore` attribute.
 
-Any elements that have a data-ignore will **NEVER** have their children diffed. To reset a `data-ignore` element is for it to be removed from the dom.
+Any elements that have a `data-ignore` will **NEVER** be diffed. The only thing `set-dom` will do for you in this case is automatically add and remove the element.
 
 ## Overrides
 You can also easily override the attributes used for both *keying* and *ignoring* by manually updating the `KEY` and `IGNORE` propeties of `set-dom` like so.
