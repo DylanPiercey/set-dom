@@ -132,7 +132,7 @@ You can also easily override the attributes used for both *keying* and *ignoring
 setDOM.KEY = 'data-my-key'
 
 // Change 'data-ignore' to 'data-my-ignore'
-setDOM.KEY = 'data-my-ignore'
+setDOM.IGNORE = 'data-my-ignore'
 ```
 
 ### Benchmarks
