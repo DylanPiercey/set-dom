@@ -136,7 +136,7 @@ setDOM.KEY = 'data-my-ignore'
 ```
 
 ### Benchmarks
-Benchmarks are available on the [vdom-benchmark](https://vdom-benchmark.github.io/vdom-benchmark/) website. You can check out how `set-dom` compares by clicking [here](https://dylanpiercey.github.io/vdom-set-dom/?type=window&id=1).
+Benchmarks are available on the [vdom-benchmark](https://vdom-benchmark.github.io/vdom-benchmark/) website.
 
 ### Contributions
 
