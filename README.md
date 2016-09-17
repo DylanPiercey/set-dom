@@ -135,9 +135,11 @@ setDOM.KEY = 'data-my-key'
 setDOM.KEY = 'data-my-ignore'
 ```
 
+### Benchmarks
+Benchmarks are available on the [vdom-benchmark](https://vdom-benchmark.github.io/vdom-benchmark/) website. You can check out how `set-dom` compares by clicking [here](https://dylanpiercey.github.io/vdom-set-dom/?type=window&id=1).
+
 ### Contributions
 
 * Use `npm test` to run tests.
 
-I'm working on creating some benchmarks but any help would be awesome.
 Please feel free to create a PR!
