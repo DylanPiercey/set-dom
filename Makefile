@@ -50,4 +50,9 @@ build:
 				warnings=false,unused,sequences,properties,dead_code,drop_debugger,conditionals,comparisons,evaluate,booleans,loops,hoist_funs,if_return,join_vars,cascade,drop_console,keep_fargs=false\
 			--mangle
 
+# Build tests for browser.
+build-test:
+	@NODE_ENV=test \
+		$(browserify) -p bundle-collapser/plugin --standalone setDOM --debug $(TESTS_IN) > $(TESTS_OUT)
+
 .PHONY: test

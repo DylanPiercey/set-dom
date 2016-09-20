@@ -39,6 +39,7 @@
     "coveralls": "make coveralls",
     "lint": "make lint",
     "test": "npm run lint && make test",
+    "test-browser": "npm run lint && make build-test && open ./test/run.html",
     "test-ci": "npm run lint && make test-ci"
   },
   "standard": {
@@ -52,7 +53,8 @@
       "afterEach"
     ],
     "ignore": [
-      "dist"
+      "dist",
+      "test/run.js"
     ]
   }
 }
