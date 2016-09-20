@@ -26,7 +26,7 @@ function setDOM (prev, next) {
 
   // If a string was provided we will parse it as dom.
   if (typeof next === 'string') {
-    if (prev === document.documentElement) {
+    if (prev.nodeName === 'HTML') {
       HTML_ELEMENT.innerHTML = next
       next = HTML_ELEMENT
     } else {
@@ -48,31 +48,33 @@ function setDOM (prev, next) {
  * @param {Node} next - The updated HTMLNode.
  */
 function setNode (prev, next) {
-  // Handle regular element node updates.
-  if (prev.nodeType === ELEMENT_TYPE) {
-    // Ignore elements that explicity choose not to be diffed.
-    if (!prev.hasAttribute(setDOM.IGNORE)) {
-      // Update all children (and subchildren).
-      setChildNodes(prev, prev.childNodes, next.childNodes)
+  if (prev.nodeType === next.nodeType) {
+    // Handle regular element node updates.
+    if (prev.nodeType === ELEMENT_TYPE) {
+      // Ignore elements that explicity choose not to be diffed.
+      if (!prev.hasAttribute(setDOM.IGNORE)) {
+        // Update all children (and subchildren).
+        setChildNodes(prev, prev.childNodes, next.childNodes)
 
-      // Update the elements attributes / tagName.
-      if (prev.nodeName === next.nodeName) {
-        // If we have the same nodename then we can directly update the attributes.
-        setAttributes(prev, prev.attributes, next.attributes)
-      } else {
-        // Otherwise clone the new node to use as the existing node.
-        var newPrev = next.cloneNode()
-        // Copy over all existing children from the original node.
-        while (prev.firstChild) newPrev.appendChild(prev.firstChild)
-        // Replace the original node with the new one with the right tag.
-        prev.parentNode.replaceChild(newPrev, prev)
+        // Update the elements attributes / tagName.
+        if (prev.nodeName === next.nodeName) {
+          // If we have the same nodename then we can directly update the attributes.
+          setAttributes(prev, prev.attributes, next.attributes)
+        } else {
+          // Otherwise clone the new node to use as the existing node.
+          var newPrev = next.cloneNode()
+          // Copy over all existing children from the original node.
+          while (prev.firstChild) newPrev.appendChild(prev.firstChild)
+          // Replace the original node with the new one with the right tag.
+          prev.parentNode.replaceChild(newPrev, prev)
+        }
       }
-    }
-  } else if (prev.nodeType === next.nodeType) {
-    // Handle other types of node updates (text/comments/etc).
-    // If both are the same type of node we can update directly.
-    if (prev.nodeValue !== next.nodeValue) {
-      prev.nodeValue = next.nodeValue
+    } else {
+      // Handle other types of node updates (text/comments/etc).
+      // If both are the same type of node we can update directly.
+      if (prev.nodeValue !== next.nodeValue) {
+        prev.nodeValue = next.nodeValue
+      }
     }
   } else {
     // we have to replace the node.
@@ -151,7 +153,8 @@ function setChildNodes (parent, prevChildNodes, nextChildNodes) {
       // Check if the node has moved in the tree.
       if (a[NODE_INDEX] === newPosition) continue
       // Get the current element at the new position.
-      nextEl = prevChildNodes[newPosition] || null
+      /* istanbul ignore next */
+      nextEl = prevChildNodes[newPosition] || null // TODO: figure out if || null is needed.
       // Check if the node has already been properly positioned.
       if (nextEl === a) continue
       // Reposition node.

@@ -16,7 +16,14 @@
   <a href="https://npmjs.org/package/set-dom">
     <img src="https://img.shields.io/npm/v/set-dom.svg?style=flat-square" alt="NPM version"/>
   </a>
-
+  <!-- Travis build -->
+  <a href="https://travis-ci.org/DylanPiercey/set-dom">
+  <img src="https://img.shields.io/travis/DylanPiercey/set-dom.svg?style=flat-square" alt="Build status"/>
+  </a>
+  <!-- Coveralls coverage -->
+  <a href="https://coveralls.io/github/DylanPiercey/set-dom">
+    <img src="https://img.shields.io/coveralls/DylanPiercey/set-dom.svg?style=flat-square" alt="Test Coverage"/>
+  </a>
   <!-- File size -->
   <a href="https://github.com/DylanPiercey/set-dom/blob/master/dist/set-dom.js">
     <img src="https://badge-size.herokuapp.com/DylanPiercey/set-dom/master/dist/set-dom.js?style=flat-square" alt="File size"/>

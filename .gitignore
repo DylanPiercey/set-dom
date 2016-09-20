@@ -1,11 +1,12 @@
-# OSX
-*.DS_Store
-
 # Sublime
 *.sublime*
 
-# Dependencies
-node_modules
+# OSX
+*.DS_Store
 
-# Build
-gulpfile.js
+# Code Coverage
+coverage
+
+# NPM
+node_modules
+npm-debug.log

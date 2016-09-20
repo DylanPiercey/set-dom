@@ -1,16 +1,19 @@
 {
   "name": "set-dom",
   "description": "Lightweight dom diffing library with plain old html.",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "devDependencies": {
     "browserify": "^13.1.0",
+    "bundle-collapser": "^1.2.1",
+    "coveralls": "^2.11.14",
+    "exorcist": "^0.4.0",
+    "istanbul": "^0.4.5",
     "jsdom": "^9.5.0",
     "jsdom-global": "^2.1.0",
+    "mocha": "^3.0.2",
     "snazzy": "^5.0.0",
     "standard": "^8.1.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.0",
     "uglify-js": "^2.7.3"
   },
   "keywords": [
@@ -26,17 +29,28 @@
     "virtual"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/DylanPiercey/set-dom"
   },
   "scripts": {
-    "build": "browserify -s setDOM ./lib/index.js | uglifyjs -c warnings=false -m > ./dist/set-dom.js",
-    "lint": "standard --verbose | snazzy",
-    "test": "npm run lint && tape ./**/*.test.js | tap-spec"
+    "build": "make build",
+    "coveralls": "make coveralls",
+    "lint": "make lint",
+    "test": "npm run lint && make test",
+    "test-ci": "npm run lint && make test-ci"
   },
   "standard": {
+    "globals": [
+      "window",
+      "describe",
+      "it",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach"
+    ],
     "ignore": [
       "dist"
     ]
