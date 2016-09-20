@@ -1,6 +1,8 @@
 <h1 align="center">
   <!-- Logo -->
-  <img src="https://raw.githubusercontent.com/DylanPiercey/set-dom/master/logo.png" alt="Set-DOM"/>
+  <a href="https://github.com/DylanPiercey/set-dom" alt="Set-DOM">
+    <img src="https://raw.githubusercontent.com/DylanPiercey/set-dom/master/logo.png" alt="Set-DOM Logo"/>
+  </a>
 
   <br/>
 
