@@ -161,12 +161,12 @@ describe('Set-DOM', function () {
     var el2 = document.createElement('div')
 
     // Update inner html
-    el1.innerHTML = '<div data-ignore="" class="a">initial</div>'
+    el1.innerHTML = '<div class="a" data-ignore="">initial</div>'
     el2.innerHTML = '<div class="b">final</div>'
 
     // Attempt to diff
     diff(el1, el2)
-    assert.equal(el1.innerHTML, '<div data-ignore="" class="a">initial</div>', 'did nothing')
+    assert.equal(el1.innerHTML, '<div class="a" data-ignore="">initial</div>', 'did nothing')
   })
 
   it('should diff children (data-ignore) custom attribute', function () {
@@ -177,12 +177,12 @@ describe('Set-DOM', function () {
     diff.IGNORE = 'data-custom-ignore'
 
     // Update inner html
-    el1.innerHTML = '<div data-custom-ignore="" class="a">initial</div>'
+    el1.innerHTML = '<div class="a" data-custom-ignore="">initial</div>'
     el2.innerHTML = '<div class="b">final</div>'
 
     // Attempt to diff
     diff(el1, el2)
-    assert.equal(el1.innerHTML, '<div data-custom-ignore="" class="a">initial</div>', 'did nothing')
+    assert.equal(el1.innerHTML, '<div class="a" data-custom-ignore="">initial</div>', 'did nothing')
 
     // Reset custom ignore attribute
     diff.IGNORE = 'data-ignore'
@@ -196,7 +196,7 @@ describe('Set-DOM', function () {
   })
 
   it('should diff an entire document', function () {
-    var doc = document.implementation.createHTMLDocument()
+    var doc = document.implementation.createHTMLDocument('test')
 
     assert.ok(doc.body, 'should have a body')
     diff(doc, '<!DOCTYPE html><html><head></head><body>hello world</body></html>')
