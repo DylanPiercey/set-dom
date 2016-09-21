@@ -41,9 +41,8 @@
     "build": "make build",
     "coveralls": "make coveralls",
     "lint": "make lint",
+    "saucelabs": "make build-test && easy-sauce -c saucelabs.json",
     "test": "npm run lint && make test",
-    "test-browser": "npm run lint && make build-test && open ./test/run.html",
-    "test-saucelabs": "make build-test && easy-sauce -c saucelabs.json",
     "test-ci": "npm run lint && make test-ci"
   },
   "standard": {

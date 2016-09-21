@@ -1,48 +1,15 @@
 {
   "name": "Set-DOM",
   "tests": "/test/run.html",
-  "platforms": [{
-      "browserName": "internet explorer",
-      "version": "9",
-      "platform": "WIN7"
-  }, {
-      "browserName": "internet explorer",
-      "version": "10",
-      "platform": "WIN8"
-  }, {
-      "browserName": "internet explorer",
-      "version": "11",
-      "platform": "WIN8.1"
-  }, {
-      "browserName": "internet explorer",
-      "version": "11",
-      "platform": "Windows 10"
-  }, {
-      "browserName": "MicrosoftEdge",
-      "platform": "Windows 10"
-  }, {
-      "browserName": "chrome",
-      "platform": "WIN8.1"
-  }, {
-      "browserName": "chrome",
-      "platform": "Windows 10"
-  }, {
-      "browserName": "googlechrome",
-      "platform": "OS X 10.11"
-  }, {
-      "browserName": "firefox",
-      "platform": "WIN8.1"
-  }, {
-      "browserName": "firefox",
-      "platform": "Windows 10"
-  }, {
-      "browserName": "firefox",
-      "platform": "OS X 10.11"
-  }, {
-      "browserName": "safari",
-      "platform": "OS X 10.10"
-  }, {
-      "browserName": "safari",
-      "platform": "OS X 10.11"
-  }]
+  "platforms": [
+    ["Windows 7", "internet explorer", "9.0"],
+    ["Windows 8", "internet explorer", "10.0"],
+    ["Windows 8.1", "internet explorer", "11.0"],
+    ["Windows 10", "MicrosoftEdge", "latest"],
+    ["Windows 10", "chrome", "latest"],
+    ["Windows 10", "firefox", "latest"],
+    ["OS X 10.11", "chrome", "latest"],
+    ["OS X 10.11", "firefox", "latest"],
+    ["OS X 10.11", "safari", "9.0"]
+  ]
 }
