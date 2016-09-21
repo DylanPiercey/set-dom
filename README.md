@@ -38,6 +38,10 @@
   <a href="https://gitter.im/DylanPiercey/set-dom">
     <img src="https://img.shields.io/gitter/room/DylanPiercey/set-dom.svg?style=flat-square" alt="Gitter Chat"/>
   </a>
+
+  <a href="https://saucelabs.com/beta/builds/2f92fb469e0640e0bcf94250d41af27a">
+    <img src="https://saucelabs.com/browser-matrix/dylanpiercey.svg" alt="Browser Matrix">
+  </a>
 </h1>
 
 A lightweight library to update DOM and persist state.
