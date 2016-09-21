@@ -1,19 +1,20 @@
-# Faster builds on setup when not using sudo.
 sudo: false
-
-# Cache nodemodules for faster builds
 cache:
   directories:
-    - node_modules
-
+  - node_modules
+addons:
+  sauce_connect: true
 language: node_js
-
 node_js:
 - '6'
 - '5'
 - '4'
-
 script:
   - npm run test-ci
-
-after_success: npm run coveralls
+after_success:
+  - npm run coveralls
+  - npm run saucelabs
+env:
+  global:
+  - secure: a/dgutWVLLjwAYmS9DPwGgjB2PM8kmQDmJEQH8gM6CG+kEELUWYvRV9uoroQhrqPsa7o/Z7RkHpfd84d86ARN6N/0gQ/ihK3bSnlCK+oCijEapnCMPo+yPWXqLT68ppU7ZRQOqiY2/VKlMaFVK6ihYqCqys58tjgXEIxaQqoDQzekTxzBWjmc5c4cmcxWjwMs+ifBUKOUYgFRtfE9oRJWvnTFaVKeHOcbg4O24VbL4aeOIvLSfLY6n33LAKVQrZyGbt7a2wwgWrU25HfE3ytPaDDwuK84JCRHPclZ9AKVGWnMRdfSm1Nqyu6lR9Q5NHtKNAFEyyiiNQqSiPHnF+ePggrE4iTp3JlNMpGxK5jR6D8WE8gI2BZq/Rjk4CPDeROHrJopwpuibHCNgJCEIa1dlN2jjNqjZz8Bp081IuQidMyDwZhUA5JpUcbAEwsNmdTy7sMEEQN2YQ7761fwTQ6hEPjCgj/HcBYoH1n8og5Q+pBR1gpJeOVGS6sky/eKIC5tyatWolvehUAciC9EHBjFMLgD25bsmnMyD8/xFT4tBjfDNUhq/AyaaN2i956sMt87n49X3EJw2yov3xb8fG3vyOBIYWS0O9cF8EwI9HnCNYvVsKXvSmDftLnRXlsEcketY5rb/uPqIcZjQvDvrRW2jB+53sV98MpKXwMx04Q8DU=
+  - secure: ny5XpyYQy1INxALs7rqBTgIWnKOaxXsIdZj+cvUb2yu26s/CuoSZmmk3tSn/4EiRGBsrlPD63T+3X/m7wGcys4Fd/y6XJrFCRRmY2uDu0xNXmkWof99RoMMKPJCfgJ/XCT/e3DjCYB7abSHCwW1vxwQ+Jupw5M1+Tvx+YRPElWAcIN+qy+Wg339uE1NG1eQucqQus2n7IU+nOnfB4KvMR9TnktnyRc/sqPOGAdM64pncv5S1UbCyFrVaYLhqFJr0z8G67kruWmxFbV2Qg+e+unwmqFem1+FMk01WojGT+NFTRhVCKYWZp5QJ4TzbMcIdnQ20DCt+3UBxk1QGh0o5tM+ZJhi/d0XYivo2Gq33RxVkTDOo2ltgEYiJXFfxvQqSwy3bN9rMf6/UAvqR5ybarFx8QxnQ+RPxyK4E+4dFTPNWQz8H3dXDMgIgMClLOt1kHJuYPFybddrcW7gCD/0MVNHUu+D4YQJqcFZ+Yhypq3RGdTcC0YXI5hZz4vEd5jIYt1UnrJCUlXDz+bIzKMVeFpdEUHgMzaGTP25+QtkCEO+r6k9H9Wn9MUGSn+0ef22qyXrLZA0whq57MdXS5ccL/KyGdFjWPeossjoaTTVDmr0BhRzprwZ4SEHgH+egUT2ZcrqMq30q+STkt6s3hbphxsFUMqhnIg0RAS4G9nhneiI=
