@@ -52,7 +52,7 @@ function setNode (prev, next) {
     // Handle regular element node updates.
     if (prev.nodeType === ELEMENT_TYPE) {
       // Ignore elements that explicity choose not to be diffed.
-      if (!prev.attributes[setDOM.IGNORE]) {
+      if (!(prev.attributes[setDOM.IGNORE] && next.attributes[setDOM.IGNORE])) {
         // Update all children (and subchildren).
         setChildNodes(prev, prev.childNodes, next.childNodes)
 

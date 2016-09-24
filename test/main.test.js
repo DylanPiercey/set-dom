@@ -162,11 +162,24 @@ describe('Set-DOM', function () {
 
     // Update inner html
     el1.innerHTML = '<div class="a" data-ignore="">initial</div>'
-    el2.innerHTML = '<div class="b">final</div>'
+    el2.innerHTML = '<div class="b" data-ignore="">final</div>'
 
     // Attempt to diff
     diff(el1, el2)
     assert.equal(el1.innerHTML, '<div class="a" data-ignore="">initial</div>', 'did nothing')
+  })
+
+  it('should diff when no longer ignored (data-ignore)', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-ignore="">initial</div>'
+    el2.innerHTML = '<div class="b">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="b">final</div>', 'updated dom')
   })
 
   it('should diff children (data-ignore) custom attribute', function () {
@@ -178,7 +191,7 @@ describe('Set-DOM', function () {
 
     // Update inner html
     el1.innerHTML = '<div class="a" data-custom-ignore="">initial</div>'
-    el2.innerHTML = '<div class="b">final</div>'
+    el2.innerHTML = '<div class="b" data-custom-ignore="">final</div>'
 
     // Attempt to diff
     diff(el1, el2)
