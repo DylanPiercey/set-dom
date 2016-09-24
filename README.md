@@ -138,7 +138,7 @@ Sometimes it is required to simply escape the whole diffing paradigm and do all 
 Any elements that have a `data-ignore` will only be diffed when the `data-ignore` attribute is removed. The only thing `set-dom` will do for you in this case is automatically add and remove the element.
 
 ## Overrides
-You can also easily override the attributes used for both *keying* and *ignoring* by manually updating the `KEY` and `IGNORE` propeties of `set-dom` like so.
+You can also easily override the attributes used for both *keying* and *ignoring* by manually updating the `KEY` and `IGNORE` properties of `set-dom` like so.
 
 ```js
 // Change 'data-key' to 'data-my-key'
