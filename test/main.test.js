@@ -42,6 +42,8 @@ describe('Set-DOM', function () {
     var parent = document.createElement('div')
     var el1 = document.createElement('div')
     var el2 = document.createTextNode('hello world')
+    el1.id = 'test'
+    el2.id = 'test'
 
     parent.appendChild(el1)
     diff(el1, el2)
@@ -82,7 +84,7 @@ describe('Set-DOM', function () {
     assert.equal(el1.lastChild, originalLastChild, 'preserved children')
   })
 
-  it('should diff children (data-key) remove', function () {
+  it('should diff children (data-key) move by deleting', function () {
     var el1 = document.createElement('div')
     var el2 = document.createElement('div')
 
@@ -99,7 +101,7 @@ describe('Set-DOM', function () {
     assert.equal(el1.lastChild, originalLastChild, 'preserved children')
   })
 
-  it('should diff children (data-key) move', function () {
+  it('should diff children (data-key) move by shuffling', function () {
     var el1 = document.createElement('div')
     var el2 = document.createElement('div')
 
@@ -114,6 +116,21 @@ describe('Set-DOM', function () {
     // Ensure that other was not discarded.
     assert.equal(el1.childNodes[1], originalThirdChild, 'preserved children')
     assert.equal(el1.childNodes[2], originalSecondChild, 'preserved children')
+  })
+
+  it('should diff children (data-key) remove', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a><b>text</b><i data-key="test">text2</i>'
+    el2.innerHTML = '<a href="link2">hello2</a>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
   })
 
   it('should diff children (data-key) with xhtml namespaceURI', function () {

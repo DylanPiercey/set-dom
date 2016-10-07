@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0 - 2016-10-06
+### Changed
+- Elements with `data-key` or `id` attributes will now emit custom `mount` and `dismount` events when added and removed from the DOM.
+
 ## 3.1.0 - 2016-09-24
 ### Changed
 - Ignored elements will now be diffed when the next element is not ignored.

@@ -1,6 +1,8 @@
 'use strict'
 
+var NODE_KEY = '__set-dom-key__'
 var NODE_INDEX = '__set-dom-index__'
+var NODE_MOUNTED = '__set-dom-mounted__'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
 var HTML_ELEMENT = document.createElement('html')
@@ -37,6 +39,12 @@ function setDOM (prev, next) {
 
   // Update the node.
   setNode(prev, next)
+
+  // Trigger mount events on initial set.
+  if (!prev[NODE_MOUNTED]) {
+    prev[NODE_MOUNTED] = true
+    mount(prev)
+  }
 }
 
 /**
@@ -78,6 +86,7 @@ function setNode (prev, next) {
     }
   } else {
     // we have to replace the node.
+    dismount(prev)
     prev.parentNode.replaceChild(next, prev)
   }
 }
@@ -137,6 +146,9 @@ function setChildNodes (parent, prevChildNodes, nextChildNodes) {
   // Remove old nodes.
   for (key in prev) {
     if (next[key]) continue
+    // Trigger custom dismount event.
+    dismount(prev[key])
+    // Remove child from dom.
     parent.removeChild(prev[key])
   }
 
@@ -164,6 +176,8 @@ function setChildNodes (parent, prevChildNodes, nextChildNodes) {
       nextEl = prevChildNodes[newPosition] || null
       // Append the new node at the correct position.
       parent.insertBefore(b, nextEl)
+      // Trigger custom mounted event.
+      mount(b)
     }
   }
 }
@@ -185,7 +199,8 @@ function keyNodes (childNodes) {
   for (var i = 0; i < len; i++) {
     el = childNodes[i]
     el[NODE_INDEX] = i
-    result[getKey(el) || i] = el
+    el[NODE_KEY] = getKey(el)
+    result[el[NODE_KEY] || i] = el
   }
 
   return result
@@ -203,6 +218,57 @@ function keyNodes (childNodes) {
 function getKey (node) {
   if (node.nodeType !== ELEMENT_TYPE) return
   return node.getAttribute(setDOM.KEY) || node.id
+}
+
+/**
+ * Recursively trigger a mount event for a node and it's children.
+ *
+ * @param {Node} node - the initial node to be mounted.
+ */
+function mount (node) {
+  // Trigger mount event for this element if it has a key.
+  if (node[NODE_KEY]) dispatch(node, 'mount')
+
+  // Mount all children.
+  var child = node.firstChild
+  while (child) {
+    mount(child)
+    child = child.nextSibling
+  }
+}
+
+/**
+ * Recursively trigger a dismount event for a node and it's children.
+ *
+ * @param {Node} node - the initial node to be dismounted.
+ */
+function dismount (node) {
+  // Dismount all children.
+  var child = node.firstChild
+  while (child) {
+    dismount(child)
+    child = child.nextSibling
+  }
+
+  // Trigger dismount event for this element if it has a key.
+  if (node[NODE_KEY]) dispatch(node, 'dismount')
+}
+
+/**
+ * @private
+ * @description
+ * Create and dispatch a custom event.
+ *
+ * @param {Node} el - the node to dispatch the event for.
+ * @param {String} type - the name of the event.
+ */
+function dispatch (el, type) {
+  var e = document.createEvent('Event')
+  var prop = { value: el }
+  e.initEvent(type, false, false)
+  Object.defineProperty(e, 'target', prop)
+  Object.defineProperty(e, 'srcElement', prop)
+  el.dispatchEvent(e)
 }
 
 /**
