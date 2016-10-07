@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.2 - 2016-10-07
+### Changed
+- Fix issue with initial mounting of nodes.
+
 ## 4.0.1 - 2016-10-06
 ### Changed
 - Fix issue with mounting while switching node types.

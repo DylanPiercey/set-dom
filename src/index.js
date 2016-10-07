@@ -1,6 +1,5 @@
 'use strict'
 
-var NODE_KEY = '__set-dom-key__'
 var NODE_INDEX = '__set-dom-index__'
 var NODE_MOUNTED = '__set-dom-mounted__'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
@@ -200,8 +199,7 @@ function keyNodes (childNodes) {
   for (var i = 0; i < len; i++) {
     el = childNodes[i]
     el[NODE_INDEX] = i
-    el[NODE_KEY] = getKey(el)
-    result[el[NODE_KEY] || i] = el
+    result[getKey(el) || i] = el
   }
 
   return result
@@ -228,7 +226,7 @@ function getKey (node) {
  */
 function mount (node) {
   // Trigger mount event for this element if it has a key.
-  if (node[NODE_KEY]) dispatch(node, 'mount')
+  if (getKey(node)) dispatch(node, 'mount')
 
   // Mount all children.
   var child = node.firstChild
@@ -252,7 +250,7 @@ function dismount (node) {
   }
 
   // Trigger dismount event for this element if it has a key.
-  if (node[NODE_KEY]) dispatch(node, 'dismount')
+  if (getKey(node)) dispatch(node, 'dismount')
 }
 
 /**
