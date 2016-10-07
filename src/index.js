@@ -88,6 +88,7 @@ function setNode (prev, next) {
     // we have to replace the node.
     dismount(prev)
     prev.parentNode.replaceChild(next, prev)
+    mount(next)
   }
 }
 
