@@ -1,7 +1,8 @@
 'use strict'
 
-var NODE_INDEX = '__set-dom-index__'
-var NODE_MOUNTED = '__set-dom-mounted__'
+var KEY_PREFIX = '_set-dom-'
+var NODE_INDEX = KEY_PREFIX + 'index'
+var NODE_MOUNTED = KEY_PREFIX + 'mounted'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
 var HTML_ELEMENT = document.createElement('html')
@@ -216,7 +217,8 @@ function keyNodes (childNodes) {
  */
 function getKey (node) {
   if (node.nodeType !== ELEMENT_TYPE) return
-  return node.getAttribute(setDOM.KEY) || node.id
+  var key = node.getAttribute(setDOM.KEY) || node.id
+  return key && KEY_PREFIX + key
 }
 
 /**
