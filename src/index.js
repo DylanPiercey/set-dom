@@ -102,24 +102,26 @@ function setNode (prev, next) {
  * @param {NamedNodeMap} next - The updated attributes.
  */
 function setAttributes (parent, prev, next) {
-  var i, a, b, ns
+  var i, a, b, ns, name
 
   // Remove old attributes.
   for (i = prev.length; i--;) {
     a = prev[i]
     ns = a.namespaceURI
-    b = next.getNamedItemNS(ns, a.name)
-    if (!b) prev.removeNamedItemNS(ns, a.name)
+    name = a.localName
+    b = next.getNamedItemNS(ns, name)
+    if (!b) prev.removeNamedItemNS(ns, name)
   }
 
   // Set new attributes.
   for (i = next.length; i--;) {
     a = next[i]
     ns = a.namespaceURI
-    b = prev.getNamedItemNS(ns, a.name)
+    name = a.localName
+    b = prev.getNamedItemNS(ns, name)
     if (!b) {
       // Add a new attribute.
-      next.removeNamedItemNS(ns, a.name)
+      next.removeNamedItemNS(ns, name)
       prev.setNamedItemNS(a)
     } else if (b.value !== a.value) {
       // Update existing attribute.
@@ -218,6 +220,7 @@ function keyNodes (childNodes) {
 function getKey (node) {
   if (node.nodeType !== ELEMENT_TYPE) return
   var key = node.getAttribute(setDOM.KEY) || node.id
+  if (key) key = KEY_PREFIX + key
   return key && KEY_PREFIX + key
 }
 
