@@ -1,12 +1,11 @@
 'use strict'
 
+var parseHTML = require('./parse-html')
 var KEY_PREFIX = '_set-dom-'
 var NODE_INDEX = KEY_PREFIX + 'index'
 var NODE_MOUNTED = KEY_PREFIX + 'mounted'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
-var HTML_ELEMENT = document.createElement('html')
-var BODY_ELEMENT = document.createElement('body')
 setDOM.KEY = 'data-key'
 setDOM.IGNORE = 'data-ignore'
 
@@ -27,15 +26,7 @@ function setDOM (prev, next) {
   if (prev.nodeType === DOCUMENT_TYPE) prev = prev.documentElement
 
   // If a string was provided we will parse it as dom.
-  if (typeof next === 'string') {
-    if (prev.nodeName === 'HTML') {
-      HTML_ELEMENT.innerHTML = next
-      next = HTML_ELEMENT
-    } else {
-      BODY_ELEMENT.innerHTML = next
-      next = BODY_ELEMENT.firstChild
-    }
-  }
+  if (typeof next === 'string') next = parseHTML(next, prev.nodeName)
 
   // Update the node.
   setNode(prev, next)
