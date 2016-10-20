@@ -4,6 +4,7 @@ var parser = new window.DOMParser()
 var htmlType = 'text/html'
 var xhtmlType = 'application/xhtml+xml'
 var testCode = '<i></i>'
+var documentRootName = 'HTML'
 var supportsHTMLType = false
 var supportsXHTMLType = false
 
@@ -25,13 +26,13 @@ try {
 module.exports = supportsHTMLType
   ? function parseHTML (markup, rootName) {
     var doc = parser.parseFromString(markup, htmlType)
-    return rootName === 'HTML'
+    return rootName === documentRootName
       ? doc.documentElement
       : doc.body.firstChild
   }
   /* istanbul ignore next: Only used in older browsers */
   : function parseHTML (markup, rootName) {
-    var isRoot = rootName === 'HTML'
+    var isRoot = rootName === documentRootName
 
     // Special case for ie9 (documentElement.innerHTML not supported).
     if (supportsXHTMLType && isRoot) {
