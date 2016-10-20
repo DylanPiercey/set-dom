@@ -3,18 +3,19 @@
 var parser = new window.DOMParser()
 var htmlType = 'text/html'
 var xhtmlType = 'application/xhtml+xml'
+var testCode = '<i></i>'
 var supportsHTMLType = false
 var supportsXHTMLType = false
 
 // Check if browser supports text/html DOMParser
 try {
   /* istanbul ignore next: Fails in older browsers */
-  if (parser.parseFromString('<i></i>', htmlType)) supportsHTMLType = true
+  if (parser.parseFromString(testCode, htmlType)) supportsHTMLType = true
 } catch (err) {}
 
 try {
   /* istanbul ignore next: Only used in ie9 */
-  if (parser.parseFromString('<i></i>', xhtmlType)) supportsXHTMLType = true
+  if (!supportsHTMLType && parser.parseFromString(testCode, xhtmlType)) supportsXHTMLType = true
 } catch (err) {}
 
 /**
@@ -37,6 +38,7 @@ module.exports = supportsHTMLType
       return parser.parseFromString(markup, xhtmlType).documentElement
     }
 
+    // Fallback to innerHTML for other older browsers.
     var doc = document.implementation.createHTMLDocument('')
     if (isRoot) {
       doc.documentElement.innerHTML = markup

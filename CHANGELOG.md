@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 5.0.0 - 2016-10-19
+## 5.0.0, 5.0.1 - 2016-10-19
 ### Changed
 - Now uses DOMParser (and shim for older browsers) for faster html string parsing.
+- Minor compression optimization.
+- Change travis build to only be node 6 (Cross browser issues left to saucelabs).
 
 ## 4.0.3 - 2016-10-19
 ### Changed
