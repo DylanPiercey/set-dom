@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Switch tests to mocha.
 - 100% test coverage.
 - Added source map to dist.
+
 ### Added
 - build with travis
 - code coverage with coveralls
