@@ -110,6 +110,9 @@ function setAttributes (parent, prev, next) {
     ns = a.namespaceURI
     name = a.localName
     b = prev.getNamedItemNS(ns, name)
+    if (typeof parent[name] !== undefined) {
+      parent[name] = (name === "checked" && typeof a.value === "string") ? (a.value === "true" ? true : false): a.value
+    }
     if (!b) {
       // Add a new attribute.
       next.removeNamedItemNS(ns, name)
