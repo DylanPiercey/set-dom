@@ -16,7 +16,7 @@
     "mocha": "^3.2.0",
     "snazzy": "^5.0.0",
     "standard": "^8.6.0",
-    "uglify-js": "^2.7.4"
+    "uglify-js": "^2.7.5"
   },
   "homepage": "https://github.com/DylanPiercey/set-dom",
   "keywords": [
