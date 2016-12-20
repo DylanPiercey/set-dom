@@ -218,6 +218,32 @@ describe('Set-DOM', function () {
     diff.IGNORE = 'data-ignore'
   })
 
+  it('should diff children (data-checksum)', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-checksum="abc">initial</div>'
+    el2.innerHTML = '<div class="b" data-checksum="efg">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="b" data-checksum="efg">final</div>', 'should have updated element')
+  })
+
+  it('should not diff children (data-checksum)', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-checksum="abc">initial</div>'
+    el2.innerHTML = '<div class="b" data-checksum="abc">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="a" data-checksum="abc">initial</div>', 'did nothing')
+  })
+
   it('should automatically parse html for diff', function () {
     var el = document.createElement('div')
 

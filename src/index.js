@@ -8,6 +8,7 @@ var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
 setDOM.KEY = 'data-key'
 setDOM.IGNORE = 'data-ignore'
+setDOM.CHECKSUM = 'data-checksum'
 
 module.exports = setDOM
 
@@ -50,23 +51,25 @@ function setNode (prev, next) {
   if (prev.nodeType === next.nodeType) {
     // Handle regular element node updates.
     if (prev.nodeType === ELEMENT_TYPE) {
+      // Ignore elements if their checksum matches.
+      if (getCheckSum(prev) === getCheckSum(next)) return
       // Ignore elements that explicity choose not to be diffed.
-      if (!(prev.attributes[setDOM.IGNORE] && next.attributes[setDOM.IGNORE])) {
-        // Update all children (and subchildren).
-        setChildNodes(prev, prev.childNodes, next.childNodes)
+      if (isIgnored(prev) && isIgnored(next)) return
 
-        // Update the elements attributes / tagName.
-        if (prev.nodeName === next.nodeName) {
-          // If we have the same nodename then we can directly update the attributes.
-          setAttributes(prev, prev.attributes, next.attributes)
-        } else {
-          // Otherwise clone the new node to use as the existing node.
-          var newPrev = next.cloneNode()
-          // Copy over all existing children from the original node.
-          while (prev.firstChild) newPrev.appendChild(prev.firstChild)
-          // Replace the original node with the new one with the right tag.
-          prev.parentNode.replaceChild(newPrev, prev)
-        }
+      // Update all children (and subchildren).
+      setChildNodes(prev, prev.childNodes, next.childNodes)
+
+      // Update the elements attributes / tagName.
+      if (prev.nodeName === next.nodeName) {
+        // If we have the same nodename then we can directly update the attributes.
+        setAttributes(prev, prev.attributes, next.attributes)
+      } else {
+        // Otherwise clone the new node to use as the existing node.
+        var newPrev = next.cloneNode()
+        // Copy over all existing children from the original node.
+        while (prev.firstChild) newPrev.appendChild(prev.firstChild)
+        // Replace the original node with the new one with the right tag.
+        prev.parentNode.replaceChild(newPrev, prev)
       }
     } else {
       // Handle other types of node updates (text/comments/etc).
@@ -213,6 +216,32 @@ function getKey (node) {
   var key = node.getAttribute(setDOM.KEY) || node.id
   if (key) key = KEY_PREFIX + key
   return key && KEY_PREFIX + key
+}
+
+/**
+ * @private
+ * @description
+ * Utility to try to pull a checksum attribute from an element.
+ * Uses 'data-checksum' or user specified checksum property.
+ *
+ * @param {Node} node - The node to get the checksum for.
+ * @return {String|NaN}
+ */
+function getCheckSum (node) {
+  return node.getAttribute(setDOM.CHECKSUM) || NaN
+}
+
+/**
+ * @private
+ * @description
+ * Utility to try to check if an element should be ignored by the algorithm.
+ * Uses 'data-ignore' or user specified ignore property.
+ *
+ * @param {Node} node - The node to check if it should be ignored.
+ * @return {Boolean}
+ */
+function isIgnored (node) {
+  return node.getAttribute(setDOM.IGNORE) != null
 }
 
 /**
