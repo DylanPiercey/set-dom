@@ -111,7 +111,7 @@ function setAttributes (parent, prev, next) {
     name = a.localName
     b = prev.getNamedItemNS(ns, name)
     if (typeof parent[name] !== undefined) {
-      if(name === "checked"){
+      if(name === "checked" || name === "selected"){
         parent[name] = "checked";
       } else{
         parent[name] = (name === "checked" && typeof a.value === "string") ? (a.value === "true" ? true : false): a.value
