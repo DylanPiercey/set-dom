@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 6.0.1 - 2017-02-13
+### Changed
+- Fixed typo in README.
+- Added more tests for data-checksum.
+- Made DOMParser optional (IE < 8).
+
 ## 6.0.0 - 2016-12-19
 ### Changed
 - Added `data-checksum` property. This aids in performance by allowing the user to provide a checksum which will be checked before diffing nodes. Allows users to skip the diffing algorithm by comparing state via checksum.

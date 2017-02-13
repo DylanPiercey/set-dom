@@ -156,7 +156,7 @@ You can also easily override the attributes used for both *keying* and *ignoring
 // Change 'data-key' to 'data-my-key'
 setDOM.KEY = 'data-my-key'
 
-// Change 'data-check' to 'data-my-checksum'
+// Change 'data-checksum' to 'data-my-checksum'
 setDOM.CHECKSUM = 'data-my-checksum'
 
 // Change 'data-ignore' to 'data-my-ignore'

@@ -1,6 +1,6 @@
 'use strict'
 
-var parser = new window.DOMParser()
+var parser = window.DOMParser && new window.DOMParser()
 var htmlType = 'text/html'
 var xhtmlType = 'application/xhtml+xml'
 var testCode = '<i></i>'
