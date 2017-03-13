@@ -1,15 +1,24 @@
 'use strict'
 
-var parseHTML = require('./parse-html')
-var KEY_PREFIX = '_set-dom-'
-var NODE_INDEX = KEY_PREFIX + 'index'
-var NODE_MOUNTED = KEY_PREFIX + 'mounted'
-var ELEMENT_TYPE = window.Node.ELEMENT_NODE
-var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
 setDOM.KEY = 'data-key'
 setDOM.IGNORE = 'data-ignore'
 setDOM.CHECKSUM = 'data-checksum'
+var parseHTML = require('./parse-html')
+var KEY_PREFIX = '_set-dom-'
+var NODE_MOUNTED = KEY_PREFIX + 'mounted'
+var ELEMENT_TYPE = window.Node.ELEMENT_NODE
+var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
+var MOUNT_EVENT = document.createEvent('Event')
+var DISMOUNT_EVENT = document.createEvent('Event')
+var WRITABLE = { writable: true }
+MOUNT_EVENT.initEvent('mount', false, false)
+DISMOUNT_EVENT.initEvent('dismount', false, false)
+Object.defineProperty(MOUNT_EVENT, 'target', WRITABLE)
+Object.defineProperty(MOUNT_EVENT, 'srcElement', WRITABLE)
+Object.defineProperty(DISMOUNT_EVENT, 'target', WRITABLE)
+Object.defineProperty(DISMOUNT_EVENT, 'srcElement', WRITABLE)
 
+// Expose api.
 module.exports = setDOM
 
 /**
@@ -35,7 +44,7 @@ function setDOM (prev, next) {
   // Trigger mount events on initial set.
   if (!prev[NODE_MOUNTED]) {
     prev[NODE_MOUNTED] = true
-    mount(prev)
+    dispatch(prev, MOUNT_EVENT)
   }
 }
 
@@ -57,7 +66,7 @@ function setNode (prev, next) {
       if (isIgnored(prev) && isIgnored(next)) return
 
       // Update all children (and subchildren).
-      setChildNodes(prev, prev.childNodes, next.childNodes)
+      setChildNodes(prev, next)
 
       // Update the elements attributes / tagName.
       if (prev.nodeName === next.nodeName) {
@@ -80,9 +89,9 @@ function setNode (prev, next) {
     }
   } else {
     // we have to replace the node.
-    dismount(prev)
+    dispatch(prev, DISMOUNT_EVENT)
     prev.parentNode.replaceChild(next, prev)
-    mount(next)
+    dispatch(next, MOUNT_EVENT)
   }
 }
 
@@ -127,79 +136,58 @@ function setAttributes (parent, prev, next) {
 /**
  * @private
  * @description
- * Utility that will update one list of childNodes to match another.
+ * Utility that will nodes childern to match another nodes children.
  *
- * @param {Node} parent - The current parentNode being updated.
- * @param {NodeList} prevChildNodes - The previous children.
- * @param {NodeList} nextChildNodes - The updated children.
+ * @param {Node} prevParent - The existing parent node.
+ * @param {Node} nextParent - The new parent node.
  */
-function setChildNodes (parent, prevChildNodes, nextChildNodes) {
-  var key, a, b, newPosition, nextEl
+function setChildNodes (prevParent, nextParent) {
+  var prevKey, nextKey, diffPrev, diffNext, cached
+  var prevNode = prevParent.firstChild
+  var nextNode = nextParent.firstChild
 
-  // Convert nodelists into a usuable map.
-  var prev = keyNodes(prevChildNodes)
-  var next = keyNodes(nextChildNodes)
-
-  // Remove old nodes.
-  for (key in prev) {
-    if (next[key]) continue
-    // Trigger custom dismount event.
-    dismount(prev[key])
-    // Remove child from dom.
-    parent.removeChild(prev[key])
-  }
-
-  // Set new nodes.
-  for (key in next) {
-    a = prev[key]
-    b = next[key]
-    // Extract the position of the new node.
-    newPosition = b[NODE_INDEX]
-
-    if (a) {
-      // Update an existing node.
-      setNode(a, b)
-      // Check if the node has moved in the tree.
-      if (a[NODE_INDEX] === newPosition) continue
-      // Get the current element at the new position.
-      /* istanbul ignore next */
-      nextEl = prevChildNodes[newPosition] || null // TODO: figure out if || null is needed.
-      // Check if the node has already been properly positioned.
-      if (nextEl === a) continue
-      // Reposition node.
-      parent.insertBefore(a, nextEl)
-    } else {
-      // Get the current element at the new position.
-      nextEl = prevChildNodes[newPosition] || null
-      // Append the new node at the correct position.
-      parent.insertBefore(b, nextEl)
-      // Trigger custom mounted event.
-      mount(b)
+  // Extract keyed nodes from previous children and keep track of total count.
+  var extra = 0
+  var prevKeys
+  while (prevNode) {
+    extra++
+    prevKey = getKey(prevNode)
+    if (prevKey) {
+      if (!prevKeys) prevKeys = {}
+      prevKeys[prevKey] = prevNode
     }
-  }
-}
-
-/**
- * @private
- * @description
- * Converts a nodelist into a keyed map.
- * This is used for diffing while keeping elements with 'data-key' or 'id' if possible.
- *
- * @param {NodeList} childNodes - The childNodes to convert.
- * @return {Object}
- */
-function keyNodes (childNodes) {
-  var result = {}
-  var len = childNodes.length
-  var el
-
-  for (var i = 0; i < len; i++) {
-    el = childNodes[i]
-    el[NODE_INDEX] = i
-    result[getKey(el) || i] = el
+    prevNode = prevNode.nextSibling
   }
 
-  return result
+  // Loop over new nodes and perform updates.
+  prevNode = prevParent.firstChild
+  while (nextNode) {
+    diffNext = nextNode
+
+    if (prevKeys && (nextKey = getKey(nextNode)) && (cached = prevKeys[nextKey])) {
+      // If we have a key and it existed before we move the previous node to the new position and diff it.
+      prevParent.insertBefore(cached, prevNode)
+      setNode(cached, diffNext)
+    } else if (prevNode && !getKey(prevNode)) {
+      // If there was no keys on either side we simply diff the nodes.
+      diffPrev = prevNode
+      prevNode = prevNode.nextSibling
+      setNode(diffPrev, diffNext)
+    } else {
+      // Otherwise we append or insert the new node at the proper position.
+      prevParent.insertBefore(diffNext, prevNode)
+      dispatch(diffNext, MOUNT_EVENT)
+    }
+
+    extra--
+    nextNode = nextNode.nextSibling
+  }
+
+  // If we have any remaining remove them from the end.
+  while (extra > 0) {
+    extra--
+    prevParent.removeChild(dispatch(prevParent.lastChild, DISMOUNT_EVENT))
+  }
 }
 
 /**
@@ -214,8 +202,7 @@ function keyNodes (childNodes) {
 function getKey (node) {
   if (node.nodeType !== ELEMENT_TYPE) return
   var key = node.getAttribute(setDOM.KEY) || node.id
-  if (key) key = KEY_PREFIX + key
-  return key && KEY_PREFIX + key
+  if (key) return KEY_PREFIX + key
 }
 
 /**
@@ -245,54 +232,22 @@ function isIgnored (node) {
 }
 
 /**
- * Recursively trigger a mount event for a node and it's children.
+ * Recursively trigger an event for a node and it's children.
+ * Only emits events for keyed nodes.
  *
- * @param {Node} node - the initial node to be mounted.
+ * @param {Node} node - the initial node.
  */
-function mount (node) {
-  // Trigger mount event for this element if it has a key.
-  if (getKey(node)) dispatch(node, 'mount')
-
-  // Mount all children.
-  var child = node.firstChild
-  while (child) {
-    mount(child)
-    child = child.nextSibling
-  }
-}
-
-/**
- * Recursively trigger a dismount event for a node and it's children.
- *
- * @param {Node} node - the initial node to be dismounted.
- */
-function dismount (node) {
-  // Dismount all children.
-  var child = node.firstChild
-  while (child) {
-    dismount(child)
-    child = child.nextSibling
+function dispatch (node, ev) {
+  // Trigger event for this element if it has a key.
+  if (getKey(node)) {
+    ev.target = ev.srcElement = node
+    node.dispatchEvent(ev)
   }
 
-  // Trigger dismount event for this element if it has a key.
-  if (getKey(node)) dispatch(node, 'dismount')
-}
-
-/**
- * @private
- * @description
- * Create and dispatch a custom event.
- *
- * @param {Node} el - the node to dispatch the event for.
- * @param {String} type - the name of the event.
- */
-function dispatch (el, type) {
-  var e = document.createEvent('Event')
-  var prop = { value: el }
-  e.initEvent(type, false, false)
-  Object.defineProperty(e, 'target', prop)
-  Object.defineProperty(e, 'srcElement', prop)
-  el.dispatchEvent(e)
+  // Dispatch to all children.
+  var child = node.firstChild
+  while (child) child = dispatch(child, ev).nextSibling
+  return node
 }
 
 /**

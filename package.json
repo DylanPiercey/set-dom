@@ -1,22 +1,22 @@
 {
   "name": "set-dom",
   "description": "Lightweight dom diffing library with plain old html.",
-  "version": "6.0.1",
+  "version": "7.0.0",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/set-dom/issues",
   "devDependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^14.1.0",
     "bundle-collapser": "^1.2.1",
-    "coveralls": "^2.11.15",
+    "coveralls": "^2.12.0",
     "easy-sauce": "^0.4.1",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.5",
-    "jsdom": "^9.8.3",
-    "jsdom-global": "^2.1.0",
+    "jsdom": "^9.12.0",
+    "jsdom-global": "^2.1.1",
     "mocha": "^3.2.0",
-    "snazzy": "^5.0.0",
-    "standard": "^8.6.0",
-    "uglify-js": "^2.7.5"
+    "snazzy": "^6.0.0",
+    "standard": "^9.0.1",
+    "uglify-js": "^2.8.12"
   },
   "homepage": "https://github.com/DylanPiercey/set-dom",
   "keywords": [

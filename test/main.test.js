@@ -133,6 +133,36 @@ describe('Set-DOM', function () {
     assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
   })
 
+  it('should diff children (data-key) insert new key', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a><b>text</b>'
+    el2.innerHTML = '<a href="link2">hello2</a><i data-key="test">text2</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><i data-key="test">text2</i></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
+  it('should diff children (data-key) insert new node', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a><i data-key="test">text2</i>'
+    el2.innerHTML = '<a href="link2">hello2</a><b>test</b><i data-key="test">text2</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><b>test</b><i data-key="test">text2</i></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
   it('should diff children (data-key) with xhtml namespaceURI', function () {
     var el1 = document.createElementNS('http://www.w3.org/1999/xhtml', 'div')
     var el2 = document.createElementNS('http://www.w3.org/1999/xhtml', 'div')
