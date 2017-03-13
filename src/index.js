@@ -10,7 +10,7 @@ var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
 var MOUNT_EVENT = document.createEvent('Event')
 var DISMOUNT_EVENT = document.createEvent('Event')
-var WRITABLE = { writable: true }
+var WRITABLE = { writable: true, configurable: true }
 MOUNT_EVENT.initEvent('mount', false, false)
 DISMOUNT_EVENT.initEvent('dismount', false, false)
 Object.defineProperty(MOUNT_EVENT, 'target', WRITABLE)
