@@ -1,6 +1,7 @@
 {
-  "name": "Set-DOM",
-  "tests": "/test/run.html",
+  "name": "set-dom",
+  "testPath": "/test/run.html",
+  "service": "ngrok",
   "platforms": [
     ["Windows 7", "internet explorer", "9.0"],
     ["Windows 8", "internet explorer", "10.0"],
