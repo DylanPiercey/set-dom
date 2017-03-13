@@ -6,17 +6,10 @@ setDOM.CHECKSUM = 'data-checksum'
 var parseHTML = require('./parse-html')
 var KEY_PREFIX = '_set-dom-'
 var NODE_MOUNTED = KEY_PREFIX + 'mounted'
+var MOUNT_EVENT = 'mount'
+var DISMOUNT_EVENT = 'dismount'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
-var MOUNT_EVENT = document.createEvent('Event')
-var DISMOUNT_EVENT = document.createEvent('Event')
-var WRITABLE = { writable: true, configurable: true }
-MOUNT_EVENT.initEvent('mount', false, false)
-DISMOUNT_EVENT.initEvent('dismount', false, false)
-Object.defineProperty(MOUNT_EVENT, 'target', WRITABLE)
-Object.defineProperty(MOUNT_EVENT, 'srcElement', WRITABLE)
-Object.defineProperty(DISMOUNT_EVENT, 'target', WRITABLE)
-Object.defineProperty(DISMOUNT_EVENT, 'srcElement', WRITABLE)
 
 // Expose api.
 module.exports = setDOM
@@ -237,16 +230,20 @@ function isIgnored (node) {
  *
  * @param {Node} node - the initial node.
  */
-function dispatch (node, ev) {
+function dispatch (node, type) {
   // Trigger event for this element if it has a key.
   if (getKey(node)) {
-    ev.target = ev.srcElement = node
+    var ev = document.createEvent('Event')
+    var prop = { value: node }
+    ev.initEvent(type, false, false)
+    Object.defineProperty(ev, 'target', prop)
+    Object.defineProperty(ev, 'srcElement', prop)
     node.dispatchEvent(ev)
   }
 
   // Dispatch to all children.
   var child = node.firstChild
-  while (child) child = dispatch(child, ev).nextSibling
+  while (child) child = dispatch(child, type).nextSibling
   return node
 }
 
