@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 6.0.1 - 2017-03-13
+## 7.0.0 - 2017-03-13
 ### Changed
 - Switched to new diffing algorithm which is up to 50% faster and less memory intensive in some browsers.
 
