@@ -156,8 +156,9 @@ function setChildNodes (prevParent, nextParent) {
   prevNode = prevParent.firstChild
   while (nextNode) {
     diffNext = nextNode
+    nextNode = nextNode.nextSibling
 
-    if (prevKeys && (nextKey = getKey(nextNode)) && (cached = prevKeys[nextKey])) {
+    if (prevKeys && (nextKey = getKey(diffNext)) && (cached = prevKeys[nextKey])) {
       // If we have a key and it existed before we move the previous node to the new position and diff it.
       prevParent.insertBefore(cached, prevNode)
       setNode(cached, diffNext)
@@ -173,7 +174,6 @@ function setChildNodes (prevParent, nextParent) {
     }
 
     extra--
-    nextNode = nextNode.nextSibling
   }
 
   // If we have any remaining remove them from the end.

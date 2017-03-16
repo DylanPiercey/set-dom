@@ -67,6 +67,21 @@ describe('Set-DOM', function () {
     assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
   })
 
+  it('should diff children with spaces', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a> <b>text</b> <i>text2</i>'
+    el2.innerHTML = '<a href="link2">hello2</a><i>text1</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><i>text1</i></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
   it('should diff children (id)', function () {
     var el1 = document.createElement('div')
     var el2 = document.createElement('div')
