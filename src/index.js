@@ -176,8 +176,7 @@ function setChildNodes (oldParent, newParent) {
   }
 
   // If we have any remaining remove them from the end.
-  while (extra > 0) {
-    extra--
+  while (--extra >= 0) {
     oldParent.removeChild(dispatch(oldParent.lastChild, DISMOUNT_EVENT))
   }
 }

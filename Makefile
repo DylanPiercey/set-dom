@@ -30,7 +30,7 @@ coveralls:
 test:
 	@NODE_ENV=test \
 		$(istanbul) cover \
-		$(mocha) --require $(jsdom)/register --report html -- -u exports $(TESTS_IN)
+		$(mocha) --require $(jsdom)/register --report html --report lcov -- -u exports $(TESTS_IN)
 
 # Run standard linter, mocha tests and istanbul coverage but bail early and only save lcov coverage report.
 test-ci:

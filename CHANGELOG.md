@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.0.3 - 2017-03-20
+### Changed
+- Fixed license date and name.
+- Add lcov report when testing locally.
+- Optimize one line.
+
 ## 7.0.2 - 2017-03-19
 ### Changed
 - Refactored to use better veriable names.
