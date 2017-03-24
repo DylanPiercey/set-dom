@@ -10,6 +10,7 @@ var MOUNT_EVENT = 'mount'
 var DISMOUNT_EVENT = 'dismount'
 var ELEMENT_TYPE = window.Node.ELEMENT_NODE
 var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
+var DOCUMENT_FRAGMENT_TYPE = window.Node.DOCUMENT_FRAGMENT_NODE
 
 // Expose api.
 module.exports = setDOM
@@ -73,6 +74,10 @@ function setNode (oldNode, newNode) {
         // Replace the original node with the new one with the right tag.
         oldNode.parentNode.replaceChild(newPrev, oldNode)
       }
+    } else if (oldNode.nodeType === DOCUMENT_FRAGMENT_TYPE) {
+      // Document Fragments don't have attributes, so no need to look at checksums, ignored, attributes, or node replacement.
+      // Simply update all children (and subchildren).
+      setChildNodes(oldNode, newNode)
     } else {
       // Handle other types of node updates (text/comments/etc).
       // If both are the same type of node we can update directly.

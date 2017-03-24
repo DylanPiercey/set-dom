@@ -322,4 +322,22 @@ describe('Set-DOM', function () {
     diff(doc, '<!DOCTYPE html><html><head></head><body>hello world</body></html>')
     assert.equal(doc.body.innerHTML, 'hello world', 'should have updated document')
   })
+
+  it('should diff a document fragment', function () {
+    var fragment1 = document.createDocumentFragment()
+    var fragment2 = document.createDocumentFragment()
+
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner text
+    el1.innerHTML = 'hello world'
+    el2.innerHTML = 'hello world 2'
+
+    fragment1.appendChild(el1)
+    fragment2.appendChild(el2)
+
+    diff(fragment1, fragment2)
+    assert.equal(el1.firstChild.nodeValue, 'hello world 2', 'update nodevalue')
+  })
 })
