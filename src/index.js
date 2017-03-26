@@ -29,11 +29,18 @@ function setDOM (oldNode, newNode) {
   // Alias document element with document.
   if (oldNode.nodeType === DOCUMENT_TYPE) oldNode = oldNode.documentElement
 
-  // If a string was provided we will parse it as dom.
-  if (typeof newNode === 'string') newNode = parseHTML(newNode, oldNode.nodeName)
-
-  // Update the node.
-  setNode(oldNode, newNode)
+  // Document Fragments don't have attributes, so no need to look at checksums, ignored, attributes, or node replacement.
+  if (newNode.nodeType === DOCUMENT_FRAGMENT_TYPE) {
+    // Simply update all children (and subchildren).
+    setChildNodes(oldNode, newNode)
+  } else {
+    // Otherwise we diff the entire old node.
+    setNode(oldNode, typeof newNode === 'string'
+      // If a string was provided we will parse it as dom.
+      ? parseHTML(newNode, oldNode.nodeName)
+      : newNode
+    )
+  }
 
   // Trigger mount events on initial set.
   if (!oldNode[NODE_MOUNTED]) {
@@ -74,10 +81,6 @@ function setNode (oldNode, newNode) {
         // Replace the original node with the new one with the right tag.
         oldNode.parentNode.replaceChild(newPrev, oldNode)
       }
-    } else if (oldNode.nodeType === DOCUMENT_FRAGMENT_TYPE) {
-      // Document Fragments don't have attributes, so no need to look at checksums, ignored, attributes, or node replacement.
-      // Simply update all children (and subchildren).
-      setChildNodes(oldNode, newNode)
     } else {
       // Handle other types of node updates (text/comments/etc).
       // If both are the same type of node we can update directly.

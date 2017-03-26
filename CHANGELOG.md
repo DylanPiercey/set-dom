@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.2.0 - 2017-03-26
+### Changed
+- Add support for diffing against a DocumentFragment (diffs childNodes).
+
 ## 7.1.0 - 2017-03-26
 ### Changed
 - Improve html string parsing performance in older browsers.
