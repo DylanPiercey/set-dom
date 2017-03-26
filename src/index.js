@@ -8,8 +8,8 @@ var KEY_PREFIX = '_set-dom-'
 var NODE_MOUNTED = KEY_PREFIX + 'mounted'
 var MOUNT_EVENT = 'mount'
 var DISMOUNT_EVENT = 'dismount'
-var ELEMENT_TYPE = window.Node.ELEMENT_NODE
-var DOCUMENT_TYPE = window.Node.DOCUMENT_NODE
+var ELEMENT_TYPE = 1
+var DOCUMENT_TYPE = 9
 
 // Expose api.
 module.exports = setDOM

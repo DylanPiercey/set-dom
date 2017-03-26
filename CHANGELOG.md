@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.1.0 - 2017-03-26
+### Changed
+- Improve html string parsing performance in older browsers.
+- Remove trying to parse html string as XML (caused issues with special elements like tables).
+
 ## 7.0.3 - 2017-03-20
 ### Changed
 - Fixed license date and name.
