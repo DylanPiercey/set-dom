@@ -10,3 +10,6 @@ coverage
 # NPM
 node_modules
 npm-debug.log
+
+# Test
+test/run.js
