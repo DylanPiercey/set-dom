@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 7.3.0 - 2017-03-26
+## 7.3.0, 7.3.1 - 2017-03-26
 ### Changed
 - Fix issue in ie9 with parsing automatically inserted html like `<tbody>`.
 

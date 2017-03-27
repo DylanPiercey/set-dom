@@ -47,8 +47,8 @@ module.exports = supportsHTMLType
         return mockHTML
       } else {
         // IE9 does not support innerhtml at root level.
-        // We get arround this by parsing everything except the body as xhtml.
-        var bodyMatch = bodyReg.exec(markup)
+        // We get around this by parsing everything except the body as xhtml.
+        var bodyMatch = markup.match(bodyReg)
         if (bodyMatch) {
           var bodyContent = bodyMatch[2]
           var startBody = bodyMatch.index + bodyMatch[1].length

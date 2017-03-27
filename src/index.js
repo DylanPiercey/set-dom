@@ -70,7 +70,7 @@ function setNode (oldNode, newNode) {
       setChildNodes(oldNode, newNode)
 
       // Update the elements attributes / tagName.
-      if (oldNode.nodeName === newNode.nodeName.toUpperCase()) {
+      if (oldNode.nodeName === newNode.nodeName) {
         // If we have the same nodename then we can directly update the attributes.
         setAttributes(oldNode.attributes, newNode.attributes)
       } else {
