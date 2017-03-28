@@ -1,7 +1,7 @@
 {
   "name": "set-dom",
   "description": "Lightweight dom diffing library with plain old html.",
-  "version": "7.3.1",
+  "version": "7.3.2",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/set-dom/issues",
   "devDependencies": {
