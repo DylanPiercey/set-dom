@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.3.2 - 2017-03-28
+### Changed
+- Fix issue with keyed nodes sometimes being moved to the wrong spot.
+- Keyed nodes will no longer be moved when they are already in the proper position.
+
 ## 7.3.0, 7.3.1 - 2017-03-26
 ### Changed
 - Fix issue in ie9 with parsing automatically inserted html like `<tbody>`.

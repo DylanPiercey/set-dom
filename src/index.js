@@ -169,7 +169,12 @@ function setChildNodes (oldParent, newParent) {
 
     if (keyedNodes && (newKey = getKey(checkNew)) && (foundNode = keyedNodes[newKey])) {
       // If we have a key and it existed before we move the previous node to the new position and diff it.
-      oldParent.insertBefore(foundNode, oldNode)
+      if (foundNode !== oldNode) {
+        oldParent.insertBefore(foundNode, oldNode)
+      } else {
+        oldNode = oldNode.nextSibling
+      }
+
       setNode(foundNode, checkNew)
     } else if (oldNode && !getKey(oldNode)) {
       // If there was no keys on either side we simply diff the nodes.
