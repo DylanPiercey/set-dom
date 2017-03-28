@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 7.3.2 - 2017-03-28
+## 7.3.2, 7.3.3 - 2017-03-28
 ### Changed
+- Optimize old (keyed) node removals.
 - Fix issue with keyed nodes sometimes being moved to the wrong spot.
 - Keyed nodes will no longer be moved when they are already in the proper position.
 

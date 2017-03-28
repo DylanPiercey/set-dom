@@ -168,7 +168,8 @@ function setChildNodes (oldParent, newParent) {
     newNode = newNode.nextSibling
 
     if (keyedNodes && (newKey = getKey(checkNew)) && (foundNode = keyedNodes[newKey])) {
-      // If we have a key and it existed before we move the previous node to the new position and diff it.
+      delete keyedNodes[newKey]
+      // If we have a key and it existed before we move the previous node to the new position if needed and diff it.
       if (foundNode !== oldNode) {
         oldParent.insertBefore(foundNode, oldNode)
       } else {
@@ -176,19 +177,31 @@ function setChildNodes (oldParent, newParent) {
       }
 
       setNode(foundNode, checkNew)
-    } else if (oldNode && !getKey(oldNode)) {
-      // If there was no keys on either side we simply diff the nodes.
+    } else if (oldNode) {
       checkOld = oldNode
       oldNode = oldNode.nextSibling
-      setNode(checkOld, checkNew)
+      if (getKey(checkOld)) {
+        // If the old child had a key we skip over it until the end.
+        oldParent.insertBefore(checkNew, checkOld)
+        dispatch(checkNew, MOUNT_EVENT)
+      } else {
+        // Otherwise we diff the two non-keyed nodes.
+        setNode(checkOld, checkNew)
+      }
     } else {
-      // Otherwise we append or insert the new node at the proper position.
-      oldParent.insertBefore(checkNew, oldNode)
+      // Finally if there was no old node we add the new node.
+      oldParent.appendChild(checkNew)
       dispatch(checkNew, MOUNT_EVENT)
     }
   }
 
-  // If we have any remaining remove them from the end.
+  // Remove old keyed nodes.
+  for (oldKey in keyedNodes) {
+    extra--
+    oldParent.removeChild(keyedNodes[oldKey])
+  }
+
+  // If we have any remaining unkeyed nodes remove them from the end.
   while (--extra >= 0) {
     oldParent.removeChild(dispatch(oldParent.lastChild, DISMOUNT_EVENT))
   }
