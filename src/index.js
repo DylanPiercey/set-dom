@@ -6,8 +6,6 @@ setDOM.CHECKSUM = 'data-checksum'
 var parseHTML = require('./parse-html')
 var KEY_PREFIX = '_set-dom-'
 var NODE_MOUNTED = KEY_PREFIX + 'mounted'
-var MOUNT_EVENT = 'mount'
-var DISMOUNT_EVENT = 'dismount'
 var ELEMENT_TYPE = 1
 var DOCUMENT_TYPE = 9
 var DOCUMENT_FRAGMENT_TYPE = 11
@@ -45,7 +43,7 @@ function setDOM (oldNode, newNode) {
   // Trigger mount events on initial set.
   if (!oldNode[NODE_MOUNTED]) {
     oldNode[NODE_MOUNTED] = true
-    dispatch(oldNode, MOUNT_EVENT)
+    mount(oldNode)
   }
 }
 
@@ -88,9 +86,8 @@ function setNode (oldNode, newNode) {
     }
   } else {
     // we have to replace the node.
-    dispatch(oldNode, DISMOUNT_EVENT)
-    oldNode.parentNode.replaceChild(newNode, oldNode)
-    dispatch(newNode, MOUNT_EVENT)
+    oldNode.parentNode.replaceChild(newNode, dismount(oldNode))
+    mount(newNode)
   }
 }
 
@@ -181,7 +178,7 @@ function setChildNodes (oldParent, newParent) {
       if (getKey(checkOld)) {
         // If the old child had a key we skip over it until the end.
         oldParent.insertBefore(checkNew, checkOld)
-        dispatch(checkNew, MOUNT_EVENT)
+        mount(checkNew)
       } else {
         // Otherwise we diff the two non-keyed nodes.
         setNode(checkOld, checkNew)
@@ -189,7 +186,7 @@ function setChildNodes (oldParent, newParent) {
     } else {
       // Finally if there was no old node we add the new node.
       oldParent.appendChild(checkNew)
-      dispatch(checkNew, MOUNT_EVENT)
+      mount(checkNew)
     }
   }
 
@@ -201,7 +198,7 @@ function setChildNodes (oldParent, newParent) {
 
   // If we have any remaining unkeyed nodes remove them from the end.
   while (--extra >= 0) {
-    oldParent.removeChild(dispatch(oldParent.lastChild, DISMOUNT_EVENT))
+    oldParent.removeChild(dismount(oldParent.lastChild))
   }
 }
 
@@ -263,6 +260,26 @@ function getCheckSum (node) {
  */
 function isIgnored (node) {
   return node.getAttribute(setDOM.IGNORE) != null
+}
+
+/**
+ * Dispatches a mount event for the given node and children.
+ *
+ * @param {Node} node - the node to mount.
+ * @return {node}
+ */
+function mount (node, type) {
+  return dispatch(node, 'mount')
+}
+
+/**
+ * Dispatches a dismount event for the given node and children.
+ *
+ * @param {Node} node - the node to dismount.
+ * @return {node}
+ */
+function dismount (node, type) {
+  return dispatch(node, 'dismount')
 }
 
 /**
