@@ -61,10 +61,8 @@ function setNode (oldNode, newNode) {
   if (oldNode.nodeType === newNode.nodeType) {
     // Handle regular element node updates.
     if (oldNode.nodeType === ELEMENT_TYPE) {
-      // Ignore elements if their checksum matches.
-      if (getCheckSum(oldNode) === getCheckSum(newNode)) return
-      // Ignore elements that explicity choose not to be diffed.
-      if (isIgnored(oldNode) && isIgnored(newNode)) return
+      // Checks if nodes are equal before diffing.
+      if (isEqualNode(oldNode, newNode)) return
 
       // Update all children (and subchildren).
       setChildNodes(oldNode, newNode)
@@ -220,6 +218,25 @@ function getKey (node) {
   if (node.nodeType !== ELEMENT_TYPE) return
   var key = node.getAttribute(setDOM.KEY) || node.id
   if (key) return KEY_PREFIX + key
+}
+
+/**
+ * Checks if nodes are equal using the following by checking if
+ * they are both ignored, have the same checksum, or have the
+ * same contents.
+ *
+ * @param {Node} a - One of the nodes to compare.
+ * @param {Node} b - Another node to compare.
+ */
+function isEqualNode (a, b) {
+  return (
+    // Check if both nodes are ignored.
+    (isIgnored(a) && isIgnored(b)) ||
+    // Check if both nodes have the same checksum.
+    (getCheckSum(a) === getCheckSum(b)) ||
+    // Fall back to native isEqualNode check.
+    a.isEqualNode(b)
+  )
 }
 
 /**

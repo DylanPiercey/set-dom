@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.4.0 - 2017-03-29
+### Changed
+- Add isEqualNode checking (boosts perf up to 1.8x).
+
 ## 7.3.2, 7.3.3 - 2017-03-28
 ### Changed
 - Optimize old (keyed) node removals.

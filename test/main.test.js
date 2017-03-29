@@ -32,10 +32,15 @@ describe('Set-DOM', function () {
     var el2 = document.createElement('div')
 
     // Update inner text
-    el1.innerHTML = 'hello world'
-    el2.innerHTML = 'hello world 2'
+    el1.appendChild(document.createTextNode('text a'))
+    el1.appendChild(document.createTextNode('text b'))
+    el2.appendChild(document.createTextNode('text a'))
+    el2.appendChild(document.createTextNode('text c'))
+    var originalFirstChild = el1.firstChild
     diff(el1, el2)
-    assert.equal(el1.firstChild.nodeValue, 'hello world 2', 'update nodevalue')
+    assert.ok(el1.firstChild === originalFirstChild, 'Keep original first child')
+    assert.equal(originalFirstChild.nodeValue, 'text a', 'Keep first child node value')
+    assert.equal(originalFirstChild.nextSibling.nodeValue, 'text c', 'Update sibling node value')
   })
 
   it('should diff nodeType', function () {
