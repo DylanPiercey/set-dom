@@ -193,7 +193,7 @@ function setChildNodes (oldParent, newParent) {
   // Remove old keyed nodes.
   for (oldKey in keyedNodes) {
     extra--
-    oldParent.removeChild(keyedNodes[oldKey])
+    oldParent.removeChild(dismount(keyedNodes[oldKey]))
   }
 
   // If we have any remaining unkeyed nodes remove them from the end.
@@ -268,7 +268,7 @@ function isIgnored (node) {
  * @param {Node} node - the node to mount.
  * @return {node}
  */
-function mount (node, type) {
+function mount (node) {
   return dispatch(node, 'mount')
 }
 
@@ -278,7 +278,7 @@ function mount (node, type) {
  * @param {Node} node - the node to dismount.
  * @return {node}
  */
-function dismount (node, type) {
+function dismount (node) {
   return dispatch(node, 'dismount')
 }
 
