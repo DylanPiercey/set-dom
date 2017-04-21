@@ -124,6 +124,7 @@ function setAttributes (oldAttributes, newAttributes) {
     } else if (b.value !== a.value) {
       // Update existing attribute.
       b.value = a.value
+      parent.value = a.value
     }
   }
 }
