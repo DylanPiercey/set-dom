@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.4.3 - 2017-06-11
+### Changed
+- Update dev dependencies.
+
 ## 7.4.2 - 2017-04-18
 ### Changed
 - Fix issue with dismount event not dispatching on keyed nodes.

@@ -5,18 +5,18 @@
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/set-dom/issues",
   "devDependencies": {
-    "browserify": "^14.3.0",
+    "browserify": "^14.4.0",
     "bundle-collapser": "^1.2.1",
-    "coveralls": "^2.13.0",
+    "coveralls": "^2.13.1",
     "easy-sauce": "^0.4.1",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.5",
-    "jsdom": "^9.12.0",
-    "jsdom-global": "^2.1.1",
-    "mocha": "^3.2.0",
+    "jsdom": "^11.0.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^3.4.2",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2",
-    "uglify-js": "^2.8.22"
+    "uglify-js": "^3.0.15"
   },
   "homepage": "https://github.com/DylanPiercey/set-dom",
   "keywords": [
