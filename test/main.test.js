@@ -32,10 +32,15 @@ describe('Set-DOM', function () {
     var el2 = document.createElement('div')
 
     // Update inner text
-    el1.innerHTML = 'hello world'
-    el2.innerHTML = 'hello world 2'
+    el1.appendChild(document.createTextNode('text a'))
+    el1.appendChild(document.createTextNode('text b'))
+    el2.appendChild(document.createTextNode('text a'))
+    el2.appendChild(document.createTextNode('text c'))
+    var originalFirstChild = el1.firstChild
     diff(el1, el2)
-    assert.equal(el1.firstChild.nodeValue, 'hello world 2', 'update nodevalue')
+    assert.ok(el1.firstChild === originalFirstChild, 'Keep original first child')
+    assert.equal(originalFirstChild.nodeValue, 'text a', 'Keep first child node value')
+    assert.equal(originalFirstChild.nextSibling.nodeValue, 'text c', 'Update sibling node value')
   })
 
   it('should diff nodeType', function () {
@@ -58,6 +63,21 @@ describe('Set-DOM', function () {
 
     // Update inner html
     el1.innerHTML = '<a href="link">hello</a><b>text</b><i>text2</i>'
+    el2.innerHTML = '<a href="link2">hello2</a><i>text1</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><i>text1</i></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
+  it('should diff children with spaces', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a> <b>text</b> <i>text2</i>'
     el2.innerHTML = '<a href="link2">hello2</a><i>text1</i>'
     var originalFirstChild = el1.firstChild
     diff(el1, el2)
@@ -129,6 +149,36 @@ describe('Set-DOM', function () {
     diff(el1, el2)
 
     assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
+  it('should diff children (data-key) insert new key', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a><b>text</b>'
+    el2.innerHTML = '<a href="link2">hello2</a><i data-key="test">text2</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><i data-key="test">text2</i></div>', 'update children innerhtml')
+    // Ensure that other was not discarded.
+    assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
+  })
+
+  it('should diff children (data-key) insert new node', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<a href="link">hello</a><i data-key="test">text2</i>'
+    el2.innerHTML = '<a href="link2">hello2</a><b>test</b><i data-key="test">text2</i>'
+    var originalFirstChild = el1.firstChild
+    diff(el1, el2)
+
+    assert.equal(el1.outerHTML, '<div><a href="link2">hello2</a><b>test</b><i data-key="test">text2</i></div>', 'update children innerhtml')
     // Ensure that other was not discarded.
     assert.equal(el1.firstChild, originalFirstChild, 'preserved children')
   })
@@ -218,6 +268,51 @@ describe('Set-DOM', function () {
     diff.IGNORE = 'data-ignore'
   })
 
+  it('should diff children (data-checksum)', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-checksum="abc">initial</div>'
+    el2.innerHTML = '<div class="b" data-checksum="efg">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="b" data-checksum="efg">final</div>', 'should have updated element')
+  })
+
+  it('should not diff children (data-checksum)', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-checksum="abc">initial</div>'
+    el2.innerHTML = '<div class="b" data-checksum="abc">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="a" data-checksum="abc">initial</div>', 'did nothing')
+  })
+
+  it('should diff children (data-checksum) custom attribute', function () {
+    // Set custom checksum attribute
+    diff.CHECKSUM = 'data-custom-checksum'
+
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a" data-custom-checksum="abc">initial</div>'
+    el2.innerHTML = '<div class="b" data-custom-checksum="efg">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="b" data-custom-checksum="efg">final</div>', 'should have updated element')
+
+    // Reset custom checksum attribute
+    diff.CHECKSUM = 'data-checksum'
+  })
+
   it('should automatically parse html for diff', function () {
     var el = document.createElement('div')
 
@@ -231,5 +326,23 @@ describe('Set-DOM', function () {
     assert.ok(doc.body, 'should have a body')
     diff(doc, '<!DOCTYPE html><html><head></head><body>hello world</body></html>')
     assert.equal(doc.body.innerHTML, 'hello world', 'should have updated document')
+  })
+
+  it('should diff a document fragment', function () {
+    var fragment1 = document.createDocumentFragment()
+    var fragment2 = document.createDocumentFragment()
+
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner text
+    el1.innerHTML = 'hello world'
+    el2.innerHTML = 'hello world 2'
+
+    fragment1.appendChild(el1)
+    fragment2.appendChild(el2)
+
+    diff(fragment1, fragment2)
+    assert.equal(el1.firstChild.nodeValue, 'hello world 2', 'update nodevalue')
   })
 })

@@ -126,13 +126,16 @@ setDOM(myElement, myHTML);
 
 # Advanced Tips
 
-## Keyed Elements
+## Keys
 Just like React (although slightly different) `set-dom` supports keyed nodes.
 To help the diffing algorithm reposition your elements be sure to provide a `data-key` or `id` attribute on nodes inside a map. This is optional but key for performance when re-ordering/modifying lists.
 
 Another key difference from React is that `set-dom` simply can't tell when you are rendering an entirely different component. As such it is good practice to use `data-key` when you know that most of the html will be discarded (like when rendering an entirely different page) to skip the diffing process entirely.
 
-## Ignored Elements
+## Checksum
+Another trick to help set-dom with it's diffing algorithm is to provide a `data-checksum` attribute. This attribute will only do any diff on an element (and it's children) if the checksum changes allowing you to skip diffing entire trees of the document. Check out [hash-sum](https://github.com/bevacqua/hash-sum) for a quick and simple checksum that you can use in your templates. Simply hash the state/data for your view and set-dom will only do any changes to the document once the hash has changed.
+
+## Ignored
 Sometimes it is required to simply escape the whole diffing paradigm and do all of the manual dom work yourself. With `set-dom` it is easy to include these types of elements in the page using a special `data-ignore` attribute.
 
 Any elements that have a `data-ignore` will only be diffed when the `data-ignore` attribute is removed. The only thing `set-dom` will do for you in this case is automatically add and remove the element.
@@ -147,11 +150,14 @@ Keyed elements (those with `data-key` or `id` attributes) will automatically emi
 You can use these events to handle setup and teardown of complex components along side event delegation.
 
 ## Overrides
-You can also easily override the attributes used for both *keying* and *ignoring* by manually updating the `KEY` and `IGNORE` properties of `set-dom` like so.
+You can also easily override the attributes used for both *keying* and *ignoring* by manually updating the `KEY`, `CHECKSUM` and `IGNORE` properties of `set-dom` like so.
 
 ```js
 // Change 'data-key' to 'data-my-key'
 setDOM.KEY = 'data-my-key'
+
+// Change 'data-checksum' to 'data-my-checksum'
+setDOM.CHECKSUM = 'data-my-checksum'
 
 // Change 'data-ignore' to 'data-my-ignore'
 setDOM.IGNORE = 'data-my-ignore'

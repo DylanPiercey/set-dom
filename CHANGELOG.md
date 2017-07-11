@@ -4,6 +4,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 7.4.3 - 2017-06-11
+### Changed
+- Update dev dependencies.
+
+## 7.4.2 - 2017-04-18
+### Changed
+- Fix issue with dismount event not dispatching on keyed nodes.
+
+## 7.4.1 - 2017-03-29
+### Changed
+- Cleanup code for mount an dismount events.
+
+## 7.4.0 - 2017-03-29
+### Changed
+- Add isEqualNode checking (boosts perf up to 1.8x).
+
+## 7.3.2, 7.3.3 - 2017-03-28
+### Changed
+- Optimize old (keyed) node removals.
+- Fix issue with keyed nodes sometimes being moved to the wrong spot.
+- Keyed nodes will no longer be moved when they are already in the proper position.
+
+## 7.3.0, 7.3.1 - 2017-03-26
+### Changed
+- Fix issue in ie9 with parsing automatically inserted html like `<tbody>`.
+
+## 7.2.0 - 2017-03-26
+### Changed
+- Add support for diffing against a DocumentFragment (diffs childNodes).
+
+## 7.1.0 - 2017-03-26
+### Changed
+- Improve html string parsing performance in older browsers.
+- Remove trying to parse html string as XML (caused issues with special elements like tables).
+
+## 7.0.3 - 2017-03-20
+### Changed
+- Fixed license date and name.
+- Add lcov report when testing locally.
+- Optimize one line.
+
+## 7.0.2 - 2017-03-19
+### Changed
+- Refactored to use better veriable names.
+
+## 7.0.1 - 2017-03-15
+### Changed
+- Fixed regression in diffing algorithm with empty text nodes causing some nodes to be skipped.
+
+## 7.0.0 - 2017-03-13
+### Changed
+- Switched to new diffing algorithm which is up to 50% faster and less memory intensive in some browsers.
+
+## 6.0.1 - 2017-02-13
+### Changed
+- Fixed typo in README.
+- Added more tests for data-checksum.
+- Made DOMParser optional (IE < 8).
+
+## 6.0.0 - 2016-12-19
+### Changed
+- Added `data-checksum` property. This aids in performance by allowing the user to provide a checksum which will be checked before diffing nodes. Allows users to skip the diffing algorithm by comparing state via checksum.
+
+## 5.0.3, 5.0.4 - 2016-11-27
+### Changed
+- Updated devDependencies.
+
 ## 5.0.0, 5.0.1, 5.0.2 - 2016-10-19
 ### Changed
 - Now uses DOMParser (and shim for older browsers) for faster html string parsing.

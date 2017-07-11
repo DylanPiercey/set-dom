@@ -1,27 +1,35 @@
 'use strict'
 
-var parser = new window.DOMParser()
-var htmlType = 'text/html'
-var xhtmlType = 'application/xhtml+xml'
-var testCode = '<i></i>'
+var parser = window.DOMParser && new window.DOMParser()
 var documentRootName = 'HTML'
 var supportsHTMLType = false
-var supportsXHTMLType = false
+var supportsInnerHTML = false
+var htmlType = 'text/html'
+var xhtmlType = 'application/xhtml+xml'
+var testCode = '<br/>'
 
-// Check if browser supports text/html DOMParser
+/* istanbul ignore next: Fails in older browsers */
 try {
-  /* istanbul ignore next: Fails in older browsers */
+  // Check if browser supports text/html DOMParser
   if (parser.parseFromString(testCode, htmlType)) supportsHTMLType = true
-} catch (err) {}
-
-try {
-  /* istanbul ignore next: Only used in ie9 */
-  if (!supportsHTMLType && parser.parseFromString(testCode, xhtmlType)) supportsXHTMLType = true
-} catch (err) {}
+} catch (e) {
+  var mockDoc = document.implementation.createHTMLDocument('')
+  var mockHTML = mockDoc.documentElement
+  var mockBody = mockDoc.body
+  try {
+    // Check if browser supports documentElement.innerHTML
+    mockHTML.innerHTML += ''
+    supportsInnerHTML = true
+  } catch (e) {
+    // Check if browser supports xhtml parsing.
+    parser.parseFromString(testCode, xhtmlType)
+    var bodyReg = /(<body[^>]*>)([\s\S]*)<\/body>/
+  }
+}
 
 /**
  * Returns the results of a DOMParser as an HTMLElement.
- * (Shims for older browser and IE9).
+ * (Shims for older browsers).
  */
 module.exports = supportsHTMLType
   ? function parseHTML (markup, rootName) {
@@ -32,20 +40,30 @@ module.exports = supportsHTMLType
   }
   /* istanbul ignore next: Only used in older browsers */
   : function parseHTML (markup, rootName) {
-    var isRoot = rootName === documentRootName
-
-    // Special case for ie9 (documentElement.innerHTML not supported).
-    if (supportsXHTMLType && isRoot) {
-      return parser.parseFromString(markup, xhtmlType).documentElement
-    }
-
     // Fallback to innerHTML for other older browsers.
-    var doc = document.implementation.createHTMLDocument('')
-    if (isRoot) {
-      doc.documentElement.innerHTML = markup
-      return doc.documentElement
+    if (rootName === documentRootName) {
+      if (supportsInnerHTML) {
+        mockHTML.innerHTML = markup
+        return mockHTML
+      } else {
+        // IE9 does not support innerhtml at root level.
+        // We get around this by parsing everything except the body as xhtml.
+        var bodyMatch = markup.match(bodyReg)
+        if (bodyMatch) {
+          var bodyContent = bodyMatch[2]
+          var startBody = bodyMatch.index + bodyMatch[1].length
+          var endBody = startBody + bodyContent.length
+          markup = markup.slice(0, startBody) + markup.slice(endBody)
+          mockBody.innerHTML = bodyContent
+        }
+
+        var doc = parser.parseFromString(markup, xhtmlType)
+        var body = doc.body
+        while (mockBody.firstChild) body.appendChild(mockBody.firstChild)
+        return doc.documentElement
+      }
     } else {
-      doc.body.innerHTML = markup
-      return doc.body.firstChild
+      mockBody.innerHTML = markup
+      return mockBody.firstChild
     }
   }
