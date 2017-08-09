@@ -11,12 +11,12 @@
     "easy-sauce": "^0.4.1",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.5",
-    "jsdom": "^11.0.0",
+    "jsdom": "^11.1.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^3.4.2",
+    "mocha": "^3.5.0",
     "snazzy": "^7.0.0",
-    "standard": "^10.0.2",
-    "uglify-js": "^3.0.15"
+    "standard": "^10.0.3",
+    "uglify-js": "^3.0.27"
   },
   "homepage": "https://github.com/DylanPiercey/set-dom",
   "keywords": [
