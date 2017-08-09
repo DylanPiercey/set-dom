@@ -141,7 +141,7 @@ Sometimes it is required to simply escape the whole diffing paradigm and do all 
 Any elements that have a `data-ignore` will only be diffed when the `data-ignore` attribute is removed. The only thing `set-dom` will do for you in this case is automatically add and remove the element.
 
 ## Event delegation
-Unlike React, set-dom does not provide a way for you to add event listeners to your elements. Fortunately there is a simple approach that enables this that you have probably used before (ala jquery), [event delegation](https://davidwalsh.name/event-delegate). Check out something like [component-delegate](https://github.com/component/delegate) for a lightweight library that does this for you. Or if you are using [Rill](https://github.com/rill-js/rill) checkout [@rill/delegate](https://github.com/rill-js/delegate).
+Unlike React, set-dom does not provide a way for you to add event listeners to your elements. Fortunately there is a simple approach that enables this that you have probably used before (aka jquery), [event delegation](https://davidwalsh.name/event-delegate). Check out something like [component-delegate](https://github.com/component/delegate) for a lightweight library that does this for you. Or if you are using [Rill](https://github.com/rill-js/rill) checkout [@rill/delegate](https://github.com/rill-js/delegate).
 
 ## Mounting and Dismounting.
 Often you need the ability to intercept when a component is inserted or removed from the DOM.
