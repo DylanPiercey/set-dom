@@ -223,6 +223,19 @@ describe('Set-DOM', function () {
     diff.KEY = 'data-key'
   })
 
+  it('should preserve classes', function () {
+    var el1 = document.createElement('div')
+    var el2 = document.createElement('div')
+
+    // Update inner html
+    el1.innerHTML = '<div class="a">initial</div>'
+    el2.innerHTML = '<div class="B">final</div>'
+
+    // Attempt to diff
+    diff(el1, el2)
+    assert.equal(el1.innerHTML, '<div class="B">final</div>', 'updated dom')
+  })
+
   it('should diff children (data-ignore)', function () {
     var el1 = document.createElement('div')
     var el2 = document.createElement('div')
