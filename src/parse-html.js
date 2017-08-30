@@ -1,17 +1,23 @@
 'use strict'
-
 var parser = window.DOMParser && new window.DOMParser()
 var documentRootName = 'HTML'
 var supportsHTMLType = false
 var supportsInnerHTML = false
 var htmlType = 'text/html'
 var xhtmlType = 'application/xhtml+xml'
-var testCode = '<br/>'
+var testClass = 'A'
+var testCode = '<wbr class="' + testClass + '"/>'
 
 /* istanbul ignore next: Fails in older browsers */
 try {
   // Check if browser supports text/html DOMParser
-  if (parser.parseFromString(testCode, htmlType)) supportsHTMLType = true
+  var parsed = parser.parseFromString(testCode, htmlType).body.firstChild
+  // Some browsers (iOS 9 and Safari 9) lowercase classes for parsed elements
+  // but only when appending to DOM, so use innerHTML instead
+  var d = document.createElement('div')
+  d.appendChild(parsed)
+  if (d.firstChild.classList[0] !== testClass) throw new Error('Parsed classes not preserved')
+  supportsHTMLType = true
 } catch (e) {
   var mockDoc = document.implementation.createHTMLDocument('')
   var mockHTML = mockDoc.documentElement
