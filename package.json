@@ -53,7 +53,8 @@
       "before",
       "beforeEach",
       "after",
-      "afterEach"
+      "afterEach",
+      "Element"
     ],
     "ignore": [
       "dist",
