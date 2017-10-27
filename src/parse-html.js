@@ -23,6 +23,7 @@ try {
 var mockDoc = document.implementation.createHTMLDocument('')
 var mockHTML = mockDoc.documentElement
 var mockBody = mockDoc.body
+/* istanbul ignore next: Only used in older browsers */
 try {
   // Check if browser supports documentElement.innerHTML
   mockHTML.innerHTML += ''
@@ -35,7 +36,7 @@ try {
 
 function DOMParserParse (markup, rootName) {
   var doc = parser.parseFromString(markup, htmlType)
-  // patch for UIWebView not always returning doc.body synchronously
+  /* istanbul ignore next: Patch for iOS UIWebView not always returning doc.body synchronously */
   if (!doc.body) { return fallbackParse(markup, rootName) }
 
   return rootName === documentRootName
@@ -77,4 +78,6 @@ function fallbackParse (markup, rootName) {
  * Returns the results of a DOMParser as an HTMLElement.
  * (Shims for older browsers).
  */
-module.exports = supportsHTMLType ? DOMParserParse : fallbackParse
+module.exports = supportsHTMLType
+  ? DOMParserParse
+  : /* istanbul ignore next */ fallbackParse
