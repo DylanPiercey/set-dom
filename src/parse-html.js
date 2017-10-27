@@ -8,7 +8,6 @@ var xhtmlType = 'application/xhtml+xml'
 var testClass = 'A'
 var testCode = '<wbr class="' + testClass + '"/>'
 
-/* istanbul ignore next: Fails in older browsers */
 try {
   // Check if browser supports text/html DOMParser
   var parsed = parser.parseFromString(testCode, htmlType).body.firstChild
@@ -23,7 +22,6 @@ try {
 var mockDoc = document.implementation.createHTMLDocument('')
 var mockHTML = mockDoc.documentElement
 var mockBody = mockDoc.body
-/* istanbul ignore next: Only used in older browsers */
 try {
   // Check if browser supports documentElement.innerHTML
   mockHTML.innerHTML += ''
@@ -36,7 +34,7 @@ try {
 
 function DOMParserParse (markup, rootName) {
   var doc = parser.parseFromString(markup, htmlType)
-  /* istanbul ignore next: Patch for iOS UIWebView not always returning doc.body synchronously */
+  // Patch for iOS UIWebView not always returning doc.body synchronously
   if (!doc.body) { return fallbackParse(markup, rootName) }
 
   return rootName === documentRootName
@@ -44,7 +42,6 @@ function DOMParserParse (markup, rootName) {
     : doc.body.firstChild
 }
 
-/* istanbul ignore next: Only used in older browsers */
 function fallbackParse (markup, rootName) {
   // Fallback to innerHTML for other older browsers.
   if (rootName === documentRootName) {
@@ -80,4 +77,4 @@ function fallbackParse (markup, rootName) {
  */
 module.exports = supportsHTMLType
   ? DOMParserParse
-  : /* istanbul ignore next */ fallbackParse
+  : fallbackParse
