@@ -6,15 +6,21 @@ describe('Parse-html helper', function () {
   var runTest = function() {
     delete require.cache[require.resolve('../src/parse-html')]
     var parseHTML = require('../src/parse-html')
-    var html = '<div class="someClass">Test</div>'
+    var divHtml = '<div class="someClass">Test</div>'
+    var bodyHtml = '<body>' + divHtml + '</body>'
+    var headHTML = '<head><title>Test</title></head>'
     
     // test non-root level
-    var parsed = parseHTML(html, 'DIV')
-    assert.equal(parsed.outerHTML, html)
+    var parsed = parseHTML(divHtml, 'DIV')
+    assert.equal(parsed.outerHTML, divHtml)
     
-    // test root level
-    var parsedRoot = parseHTML(html, 'HTML')
-    assert.equal(parsedRoot.outerHTML, '<html><head></head><body>' + html + '</body></html>')
+    // test root level (with body)
+    var parsedRoot = parseHTML(headHTML + bodyHtml, 'HTML')
+    assert.equal(parsedRoot.outerHTML, '<html>' + headHTML + bodyHtml + '</html>')
+    
+    // test root level (without body)
+    var parsedRoot = parseHTML(headHTML, 'HTML')
+    assert.equal(parsedRoot.outerHTML, '<html>' + headHTML + '<body></body></html>')
   }
   it('should use DOMParser', function () {
     // DOMParser is natively supported in the test environment
@@ -40,10 +46,9 @@ describe('Parse-html helper', function () {
     window.DOMParser.prototype.parseFromString = oldFn
   })
   
-  it.skip('should handle browsers not supporting documentElement.innerHTML either', function () {
+  it('should handle browsers not supporting documentElement.innerHTML either', function () {
     var oldFn = window.DOMParser.prototype.parseFromString
     window.DOMParser.prototype.parseFromString = function(markup, type) {
-      console.log(markup, type)
       if(type == 'text/html')
         throw Exception('text/html not supported')
       // in the test environment, the xhtml parsing is not supported, use html instead
@@ -61,6 +66,7 @@ describe('Parse-html helper', function () {
       }
     })
     runTest()
+    
     window.DOMParser.prototype.parseFromString = oldFn
     Object.defineProperty(Element.prototype, 'innerHTML', oldDesc)
   })
@@ -82,11 +88,11 @@ describe('Parse-html helper', function () {
     var oldFn = window.DOMParser.prototype.parseFromString
     window.DOMParser.prototype.parseFromString = function(data, type) {
       var parsed = oldFn.apply(this, arguments)
-      if(parsed.body.firstChild.nodeName == 'WBR')
+      if(parsed.body.firstChild && parsed.body.firstChild.nodeName == 'WBR')
         // make it pass the testCode in parse-html
         return parsed
       else
-        // this is essentially what iOS UIWebView sometimes return
+        // this is essentially what iOS UIWebView sometimes returns
         return { body: null }
     }
     runTest()
