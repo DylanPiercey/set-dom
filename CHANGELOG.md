@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 7.5.0, 7.5.1 - 2017-11-07
+## 7.5.0, 7.5.1, 7.5.2 - 2017-11-07
 - Add tests for html parser.
 - Fix parsing issue in Safari 9.
 
@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Optimize one line.
 
 ## 7.0.2 - 2017-03-19
-- Refactored to use better veriable names.
+- Refactored to use better variable names.
 
 ## 7.0.1 - 2017-03-15
 - Fixed regression in diffing algorithm with empty text nodes causing some nodes to be skipped.
