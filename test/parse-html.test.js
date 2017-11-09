@@ -1,8 +1,9 @@
 'use strict'
 
 var assert = require('assert')
+var isJSDOM = global !== window
 
-describe('Parse-html helper', function () {
+isJSDOM && describe('Parse-html helper', function () {
   var runTests = function () {
     delete require.cache[require.resolve('../src/parse-html')]
     var parseHTML = require('../src/parse-html')
@@ -92,7 +93,10 @@ describe('Parse-html helper', function () {
       Element.prototype.appendChild = function (child) {
         // this is essentially what iOS 9 Safari and Safari 9 do:
         // lowercase classList but keep html unchanged
-        for (var i = 0; i < child.classList.length; i++) { child.classList[i] = child.classList[i].toLowerCase() }
+        if (child.hasAttribute('class')) {
+          child.setAttribute('class', child.getAttribute('class').toLowerCase())
+        }
+
         oldFn.call(this, child)
       }
     })

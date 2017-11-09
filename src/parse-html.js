@@ -15,7 +15,7 @@ try {
   // but only when appending to DOM, so use innerHTML instead
   var d = document.createElement('div')
   d.appendChild(parsed)
-  if (d.firstChild.classList[0] !== testClass) throw new Error('Parsed classes not preserved')
+  if (d.firstChild.classList[0] !== testClass) throw new Error()
   supportsHTMLType = true
 } catch (e) {}
 

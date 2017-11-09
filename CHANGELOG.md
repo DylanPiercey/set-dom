@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 7.5.0 - 2017-11-07
+## 7.5.0, 7.5.1 - 2017-11-07
 - Add tests for html parser.
 - Fix parsing issue in Safari 9.
 
