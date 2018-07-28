@@ -67,6 +67,8 @@ function setNode (oldNode, newNode) {
 
       // Update the elements attributes / tagName.
       if (oldNode.nodeName === newNode.nodeName) {
+        // Update input checked if the value is different
+        if (oldNode.nodeName === 'INPUT' && oldNode.checked !== newNode.checked) { oldNode.checked = newNode.checked }
         // If we have the same nodename then we can directly update the attributes.
         setAttributes(oldNode.attributes, newNode.attributes)
       } else {
