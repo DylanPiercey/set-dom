@@ -345,4 +345,15 @@ describe('Set-DOM', function () {
     diff(fragment1, fragment2)
     assert.equal(el1.firstChild.nodeValue, 'hello world 2', 'update nodevalue')
   })
+
+  it('should diff input checked', function () {
+    var el1 = document.createElement('input')
+    var el2 = document.createElement('input')
+
+    // Update checked for el2
+    el2.checked = true
+    diff(el1, el2)
+    assert.equal(el1.checked, el2.checked, 'Update sibling node value')
+  })
+
 })
