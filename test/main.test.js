@@ -353,7 +353,7 @@ describe('Set-DOM', function () {
     // Update checked for el2
     el2.checked = true
     diff(el1, el2)
-    assert.equal(el1.checked, el2.checked, 'Update sibling node value')
+    assert.equal(el1.checked, el2.checked, 'Update checked input')
   })
 
 })
