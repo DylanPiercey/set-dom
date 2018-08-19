@@ -59,6 +59,10 @@ function setNode (oldNode, newNode) {
   if (oldNode.nodeType === newNode.nodeType) {
     // Handle regular element node updates.
     if (oldNode.nodeType === ELEMENT_TYPE) {
+      // If nodeName is INPUT diff the the checked value since it's might not available as localName
+      if (oldNode.nodeName === 'INPUT' && oldNode.checked !== newNode.checked) {
+        oldNode.checked =  newNode.checked
+      }
       // Checks if nodes are equal before diffing.
       if (isEqualNode(oldNode, newNode)) return
 
