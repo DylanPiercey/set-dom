@@ -57,7 +57,12 @@ function setDOM (oldNode, newNode) {
  * @param {Node} newNode - The updated HTMLNode.
  */
 function setNode (oldNode, newNode) {
-  if (oldNode.nodeType === newNode.nodeType && !shouldReplace(newNode)) {
+  if (oldNode.nodeType !== newNode.nodeType ||
+      shouldReplace(oldNode) || shouldReplace(newNode)) {
+    // We have to replace the node.
+    oldNode.parentNode.replaceChild(newNode, dismount(oldNode))
+    mount(newNode)
+  } else {
     // Handle regular element node updates.
     if (oldNode.nodeType === ELEMENT_TYPE) {
       // Checks if nodes are equal before diffing.
@@ -85,10 +90,6 @@ function setNode (oldNode, newNode) {
         oldNode.nodeValue = newNode.nodeValue
       }
     }
-  } else {
-    // we have to replace the node.
-    oldNode.parentNode.replaceChild(newNode, dismount(oldNode))
-    mount(newNode)
   }
 }
 
