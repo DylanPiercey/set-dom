@@ -3,6 +3,7 @@
 setDOM.KEY = 'data-key'
 setDOM.IGNORE = 'data-ignore'
 setDOM.CHECKSUM = 'data-checksum'
+setDOM.REPLACE = 'data-replace'
 var parseHTML = require('./parse-html')
 var KEY_PREFIX = '_set-dom-'
 var NODE_MOUNTED = KEY_PREFIX + 'mounted'
@@ -56,7 +57,12 @@ function setDOM (oldNode, newNode) {
  * @param {Node} newNode - The updated HTMLNode.
  */
 function setNode (oldNode, newNode) {
-  if (oldNode.nodeType === newNode.nodeType) {
+  if (oldNode.nodeType !== newNode.nodeType ||
+      shouldReplace(oldNode) || shouldReplace(newNode)) {
+    // We have to replace the node.
+    oldNode.parentNode.replaceChild(newNode, dismount(oldNode))
+    mount(newNode)
+  } else {
     // Handle regular element node updates.
     if (oldNode.nodeType === ELEMENT_TYPE) {
       // Checks if nodes are equal before diffing.
@@ -84,10 +90,6 @@ function setNode (oldNode, newNode) {
         oldNode.nodeValue = newNode.nodeValue
       }
     }
-  } else {
-    // we have to replace the node.
-    oldNode.parentNode.replaceChild(newNode, dismount(oldNode))
-    mount(newNode)
   }
 }
 
@@ -260,6 +262,19 @@ function getCheckSum (node) {
  */
 function isIgnored (node) {
   return node.getAttribute(setDOM.IGNORE) != null
+}
+
+/**
+ * @private
+ * @description
+ * Utility to try to check if an element should always be replaced.
+ * Uses 'data-replace' or user specified replace property.
+ *
+ * @param {Node} node - The node to check if it should be replaced.
+ * @return {boolean}
+ */
+function shouldReplace (node) {
+  return node.nodeType === ELEMENT_TYPE && node.getAttribute(setDOM.REPLACE) != null
 }
 
 /**
